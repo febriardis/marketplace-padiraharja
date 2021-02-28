@@ -1,0 +1,83 @@
+$button-variant: (
+    'primary' #026b9a,
+    'secondary' #afafaf,
+    'success' #5aaf00,
+    'warning' #ffcf00,
+    'info' #62c2ff,
+    'danger' #eb4e4e,
+    'facebook' #0f8af0,
+    'google' #DD5146,
+);
+
+.bb-btn {
+    cursor: if($enable-button-pointers, pointer, null);
+    display: inline-block;
+    font-family: $btn-font-family;
+    font-weight: $btn-font-weight;
+    line-height: $btn-line-height;
+    color: $body-color;
+    text-align: center;
+    text-decoration: if($link-decoration == none, null, none);
+    white-space: $btn-white-space;
+    vertical-align: middle;
+    user-select: none;
+    background-color: transparent;
+    border: $btn-border-width solid transparent;
+    box-shadow: $box-shadow-sm;
+    @include button-size($btn-padding-y, $btn-padding-x, $btn-font-size, $btn-border-radius);
+    @include transition($btn-transition);
+    
+    &:hover {
+        color: $body-color;
+        text-decoration: if($link-hover-decoration == underline, none, null);
+    }
+    
+    .btn-check:focus + &,
+    &:focus {
+        outline: 0;
+        box-shadow: $btn-focus-box-shadow;
+    }
+    
+    .btn-check:checked + &,
+    .btn-check:active + &,
+    &:active,
+    &.active {
+        @include box-shadow($btn-active-box-shadow);
+    
+        &:focus {
+        @include box-shadow($btn-focus-box-shadow, $btn-active-box-shadow);
+        }
+    }
+    
+    &:disabled,
+    &.disabled,
+    fieldset:disabled & {
+        pointer-events: none;
+        opacity: $btn-disabled-opacity;
+        @include box-shadow(none);
+    }
+}
+
+@each $name, $color in $button-variant {
+    .bb-btn-#{$name} {
+        @include button-variant($color, $color);
+    }
+}
+
+$sizes: 
+    "xs" 0.25rem 0.5rem 0.875rem,
+    "sm" 0.4rem 0.75rem 0.875rem,
+    "md" 1rem 1.5rem 1rem,
+    "lg" 1.5rem 2rem 1.5rem,
+    "xl" 2.0rem 2.5rem 1.8rem;
+
+@each $name, $btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg in $sizes {
+    .bb-btn-#{$name} {
+        @include button-size($btn-padding-y-lg, $btn-padding-x-lg, $btn-font-size-lg, 4px);
+    }
+}
+
+// Custom
+.button.is-text {
+    text-decoration: none;
+}

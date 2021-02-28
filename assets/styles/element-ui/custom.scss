@@ -1,0 +1,68 @@
+// Responsive (Max Width)
+$breakpoint-desktop-sm: 1024px;
+$breakpoint-tablet: 769px;
+$breakpoint-mobile: 641px;
+
+.me-container {
+  margin: 0 auto;
+}
+
+@media (min-width: $breakpoint-tablet) {
+  // Utilities
+  .show-on-mobile {
+    display: none;
+  }
+  .hide-on-mobile {
+    display: block;
+  }
+
+  .me-container {
+    width: 80%;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .show-on-mobile {
+    display: block;
+  }
+  .hide-on-mobile {
+    display: none;
+  }
+  .me-container {
+    width: 90%;
+  }
+}
+
+.el-form-item {
+    margin-bottom: 5px !important;
+    .el-form-item__label {
+      width: 100% !important;
+      text-align: left !important;
+    }
+    .el-form-item__content {
+      margin-left: 0 !important;
+    }
+}
+
+a {
+    color: #6e6e6e;
+    text-decoration: none;
+    &:hover {
+      color: #d33;
+    }
+}
+
+a.red-link {
+  color: #d33;
+  text-decoration: none;
+  font-weight: bold;
+  &:hover {
+    color: #6e6e6e;
+  }
+}
+
+.el-dialog {
+  .el-dialog__body{
+    padding-top: 0px !important;
+  }
+}

@@ -1,0 +1,49 @@
+@import "../vendor/rfs";
+
+$sizes: 
+    "mini" 0.8rem,
+    "small" 0.875rem,
+    "medium" 1rem,
+    "large" 1.5rem,
+    "extra-large" 3rem;
+
+@each $name, $size in $sizes {
+    .text-size-#{$name} {
+        @include font-size($size)
+    }
+}
+
+.text-black {
+    color: #000;
+}
+
+.text-color-white {
+    color: #ffffff;
+}
+
+.text-color-gray {
+    color: #adadad;
+}
+
+.text-color-navy {
+    color: #122943;
+}
+
+.text-color-primary {
+    color: #026b9a;
+}
+
+.text-color-orange {
+    color: #fa8a31;
+}
+
+.text-price {
+    color: #cc2121;
+}
+
+.text-can-copy-paste {
+    box-shadow: inset 0px 1px 2px rgba(0, 0, 0, 0.08), inset 0px 2px 16px rgba(0, 0, 0, 0);
+    background: #d1dbe0;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
