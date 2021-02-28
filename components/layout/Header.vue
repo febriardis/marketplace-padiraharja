@@ -103,6 +103,9 @@ export default {
 <style lang="scss">
 #header {
   border-bottom: 1px solid #f3f4f5;
+  position: sticky;
+  z-index: 99;
+  top: 0;
 }
 
 #header1 {
@@ -121,30 +124,5 @@ export default {
 #header2 {
   background-color: #ffffff;
   padding: 10px 0;
-}
-
-.header {
-  border-bottom: 1px solid #dee2e6;
-  background: #fff;
-  font-size: 14px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  .el-dropdown-link {
-    color: #000;
-    cursor: pointer;
-  }
-}
-.hidden-in-phone {
-  @media (max-width: 395px) {
-    display: none;
-  }
-}
-.show-in-phone {
-  display: none !important;
-  @media (max-width: 395px) {
-    display: block !important;
-  }
 }
 </style>
