@@ -1,37 +1,29 @@
 <template lang="pug">
-    .login-form.text-size-small
-        .d-flex.justify-content-between
-            h2.mt-0(v-if="isLoginDialog") Login
-            h3.mt-0(v-else) Login
-            a.mt-1(href="javasciprt:void(0)" @click="isLoginDialog = false, $router.push({ name: 'auth-register' })") Daftar
-        el-form(
-            :model="form"
-            :rules="rules"
-            ref="refForm"
-        )
-            el-form-item(prop="email" label="Email")
-                el-input(type="email" v-model="form.email" placeholder="Silahkan masukan Email")
-            el-form-item(prop="password" label="Password")
-                el-input(type="password" v-model="form.password" placeholder="Mohon isi password")
-            
-            //- .mt-3
-                a(href="#") Lupa Password
-
-            el-button.mt-3.w-100(
-                type="primary"
-                :loading="state.isLoading"
-                @click="submitForm()")
-                | LOGIN
-
-            .mt-4.border-top.text-center
-                p.text-size-small.mb-0
-                    | Belum punya akun pride n joy? &nbsp;
-                    a(href="javasciprt:void(0)" @click="isLoginDialog = false, $router.push({ name: 'auth-register' })") Daftar
+    .register-form.containers
+        .row.justify-content-md-center
+            .col-md-8.col-lg-5
+                .register-card.mt-4
+                    .mt-2.login-form.text-size-small
+                      h3 Ubah Password
+                      p.text-color-gray.mt-2.mb-2 Silahkan masukan email anda untuk malanjutkan reset password.
+                      el-form(
+                          :model="form"
+                          :rules="rules"
+                          ref="refForm"
+                      )
+                          el-form-item(prop="email" label="Email")
+                              el-input(type="email" v-model="form.email" placeholder="Email")
+                          el-button.mt-3.w-100(
+                              type="unique"
+                              :loading="state.isLoading"
+                              @click="submitForm()")
+                              | Reset Password 
 </template>
 
 <script>
 import { computed, reactive, ref } from '@nuxtjs/composition-api'
 export default {
+  middleware: 'login',
   props: {
     isDialog: {
       type: Boolean,
@@ -119,5 +111,17 @@ export default {
       isLoginDialog,
     }
   },
+  head: () => ({
+    title: 'Login - Padiraharja',
+  }),
 }
 </script>
+
+<style lang="scss">
+.register-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 3px !important;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  padding: 24px 40px 32px;
+}
+</style>

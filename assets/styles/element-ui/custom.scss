@@ -1,7 +1,35 @@
+// colors
+$color-unique: #d60b0b;
+$color-cart: #ffd900;
+
 // Responsive (Max Width)
 $breakpoint-desktop-sm: 1024px;
 $breakpoint-tablet: 769px;
 $breakpoint-mobile: 641px;
+
+.el-button--unique {
+  color: #FFF;
+  background-color: $color-unique;
+  border-color: $color-unique;
+  &:hover, &:focus {
+    color: #FFF;
+    background-color: $color-unique;
+    border-color: $color-unique;
+    opacity: 0.5;
+  }
+}
+
+.el-button--cart {
+  color: #FFF;
+  background-color: $color-cart;
+  border-color: $color-cart;
+  &:hover, &:focus {
+    color: #FFF;
+    background-color: $color-cart;
+    border-color: $color-cart;
+    opacity: 0.5;
+  }
+}
 
 .me-container {
   margin: 0 auto;
@@ -15,7 +43,6 @@ $breakpoint-mobile: 641px;
   .hide-on-mobile {
     display: block;
   }
-
   .me-container {
     width: 80%;
   }
@@ -48,12 +75,12 @@ a {
     color: #6e6e6e;
     text-decoration: none;
     &:hover {
-      color: #d33;
+      color: $color-unique;
     }
 }
 
 a.red-link {
-  color: #d33;
+  color: $color-unique;
   text-decoration: none;
   font-weight: bold;
   &:hover {

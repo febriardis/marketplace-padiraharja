@@ -165,7 +165,7 @@ export default {
   },
 
   head: () => ({
-    title: 'Payment - Pride n Joy',
+    title: 'Payment - Padiraharja',
   }),
 }
 </script>

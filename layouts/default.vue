@@ -4,7 +4,7 @@
     .me-container.full-page
       nuxt
     .footer.text-center.mt-5.text-color-gray
-      | &copy; Copyright padiraharja Fast Pants 2020. All Rights Reserved
+      | &copy; Copyright Padiraharja 2020. All Rights Reserved
 </template>
 
 <script>

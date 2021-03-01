@@ -10,7 +10,7 @@ export default {
   ssr: false,
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'Fast Pants – Pride n Joy Fast Pants',
+    title: 'Padiraharja',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,7 +22,7 @@ export default {
       {
         hid: 'og:title',
         name: 'og:title',
-        content: 'Fast Pants – Pride n Joy Fast Pants',
+        content: 'Padiraharja',
       },
       {
         hid: 'og:description',
@@ -30,7 +30,17 @@ export default {
         content: 'Padiraharja',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://pro.fontawesome.com/releases/v5.10.0/css/all.css',
+        integrity:
+          'sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p',
+        crossorigin: 'anonymous',
+      },
+    ],
+    // script: [{ src: 'https://use.fontawesome.com/releases/v5.3.1/js/all.js' }]
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)

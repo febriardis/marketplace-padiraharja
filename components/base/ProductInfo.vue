@@ -1,5 +1,5 @@
 <template lang="pug">
-    .product-info
+    a.product-info(href="javascript:void(0)" @click="$router.push({ name: 'product-slug', params: {slug: 2} })")
         img(src="https://via.placeholder.com/150" class="product-img")
         .info-detail
             p.font-weight-bold.m-0 Masker Kucing Emas Terbaru
@@ -10,11 +10,15 @@
 
 <style lang="scss">
 .product-info {
-  cursor: pointer;
+  color: #000000;
+  display: block;
   margin: 0 5px;
   width: 182.22px;
   border-radius: 10px;
   box-shadow: rgb(49 53 59 / 12%) 0px 1px 6px 0px;
+  &:hover {
+    color: #000000;
+  }
   .product-img {
     width: 100%;
   }

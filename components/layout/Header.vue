@@ -6,26 +6,33 @@
             a(href="#") Download Padiraharja App
           .menu
             ul.right-nav
-              li 
-                a(href="#") Tentang Aplikasi
+              li.hide-on-mobile 
+                a(href="#") Berita Harian
               li
-                a(href="#") Petunjuk Penggunaan
-              li
-                a(href="#") Kerjasama
+                a(href="#") Hubungi Admin
+              li.hide-on-mobile
+                a(href="#") Kebijakan Privasi
 
       #header2
         .me-container.d-flex.align-items-center.justify-content-between
           router-link.mr-3(to="/")
             img(src="../../assets/images/logo/logo.png" width="110" height="auto")
-          
-          CategoryField.hide-on-mobile(v-model="state.category")
           SearchField.w-50.mr-3(v-model="state.search")
-          
-          .d-flex.align-items-center
-            el-button(plain size="small" @click="state.isLoginDialog = true") Masuk
-            el-button.hide-on-mobile(type="primary" size="small" @click="$router.push({ name: 'auth-register' })") Daftar
-          
-          LoginDialog(v-model="state.isLoginDialog")
+          //- if loggedin
+          .hide-on-mobile
+            .d-flex.align-items-center
+              el-badge.mr-3(:value="12" class="item") 
+                el-button(icon="el-icon-shopping-cart-2" size="small") 
+              el-badge.mr-3(:value="12" class="item") 
+                el-button(icon="el-icon-chat-square" size="small") 
+              .border-left.pl-4.ml-3
+                UserDropdown
+
+          //- else
+          //- .d-flex.align-items-center
+            el-button(plain size="small" @click="$router.push({ name: 'auth-login' })") Masuk
+            el-button.hide-on-mobile(type="unique" size="small" @click="$router.push({ name: 'auth-register' })") Daftar
+
 </template>
 
 <script>
@@ -34,7 +41,7 @@ import { handler } from '@/controllers/handler'
 
 export default {
   components: {
-    LoginDialog: () => import('@/components/auth/LoginDialog'),
+    UserDropdown: () => import('./UserDropdown'),
   },
   props: {
     isAuth: {
@@ -106,23 +113,26 @@ export default {
   position: sticky;
   z-index: 99;
   top: 0;
-}
-
-#header1 {
-  background-color: #f3f4f5;
-  padding: 10px 0;
-  .right-nav {
-    margin: 0;
-    li {
-      list-style: none;
-      display: inline;
-      margin: 0 10px;
+  #header1 {
+    background-color: #f3f4f5;
+    padding: 10px 0;
+    .right-nav {
+      margin: 0;
+      li {
+        list-style: none;
+        // display: inline;
+        float: left;
+        margin: 0 10px;
+      }
     }
+  }
+  #header2 {
+    background-color: #ffffff;
+    padding: 10px 0;
   }
 }
 
-#header2 {
-  background-color: #ffffff;
-  padding: 10px 0;
+.main-user-dropdown {
+  width: 450px;
 }
 </style>

@@ -4,7 +4,7 @@
     el-container.full-height
       nuxt
     .footer.text-center.mt-5.text-color-gray
-      | &copy; Copyright Pride n Joy Fast Pants 2020. All Rights Reserved
+      | &copy; Copyright Padiraharja 2020. All Rights Reserved
 </template>
 
 <style lang="scss">

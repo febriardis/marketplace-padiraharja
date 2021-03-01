@@ -20,7 +20,7 @@ export default {
     activeName: 'first',
   }),
   head: () => ({
-    title: 'Accont Setting - Pride n Joy',
+    title: 'Accont Setting - Padiraharja',
   }),
 }
 </script>

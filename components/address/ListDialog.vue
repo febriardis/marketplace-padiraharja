@@ -20,11 +20,7 @@
 
 <script>
 import { computed, reactive } from '@nuxtjs/composition-api'
-// import { handler } from '@/controllers/handler'
 export default {
-  components: {
-    LoginForm: () => import('@/components/auth/LoginForm'),
-  },
   props: {
     value: {
       type: Boolean,

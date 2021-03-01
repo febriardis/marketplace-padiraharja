@@ -1,20 +1,130 @@
 <template lang="pug">
     .register-form.containers
         .row.justify-content-md-center
-            .col-md-5
+            .col-md-8.col-lg-5
                 .register-card.mt-4
-                    LoginForm.mt-2
+                    .mt-2.login-form.text-size-small
+                      h3 Selamat Datang !
+                      p.text-color-gray.mt-2.mb-2 Silahkan Login Untuk Melanjutkan
+                      el-form(
+                          :model="form"
+                          :rules="rules"
+                          ref="refForm"
+                      )
+                          el-form-item(prop="email" label="Email")
+                              el-input(type="email" v-model="form.email" placeholder="Email")
+                          el-form-item(prop="password" label="Kata Sandi")
+                              el-input(type="password" v-model="form.password" placeholder="Kata Sandi")
+                          
+                          .mt-3
+                              a.red-link(href="javasciprt:void(0)" @click="isLoginDialog = false, $router.push({ name: 'auth-reset-password' })") Lupa Password?
+
+                          el-button.mt-3.w-100(
+                              type="unique"
+                              :loading="state.isLoading"
+                              @click="submitForm()")
+                              | LOGIN
+
+                          .mt-4.border-top.text-center
+                              p.text-size-small.mb-0
+                                  | Belum punya akun Padiraharja? &nbsp;
+                                  a.red-link(href="javasciprt:void(0)" @click="isLoginDialog = false, $router.push({ name: 'auth-register' })") Daftar
           
 </template>
 
 <script>
+import { computed, reactive, ref } from '@nuxtjs/composition-api'
 export default {
   middleware: 'login',
-  components: {
-    LoginForm: () => import('@/components/auth/LoginForm'),
+  props: {
+    isDialog: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props, ctx) {
+    const state = reactive({
+      isLoading: false,
+    })
+
+    const form = reactive({
+      email: '', // 'user@pnj.id',
+      password: '', // 'useruser',
+    })
+
+    const rules = reactive({
+      email: [
+        {
+          required: true,
+          message: 'Please input your email',
+          trigger: 'blur',
+        },
+        {
+          type: 'email',
+          message: 'Please input correct email address',
+          trigger: ['blur', 'change'],
+        },
+      ],
+      password: [
+        {
+          required: true,
+          message: 'Please input your password',
+          trigger: 'blur',
+        },
+      ],
+    })
+
+    const refForm = ref(null)
+
+    const isLoginDialog = computed({
+      get: () => {
+        return props.isDialog
+      },
+      set: (val) => {
+        ctx.emit('update:isDialog', val)
+      },
+    })
+
+    function submitForm() {
+      const _this = ctx.root
+      refForm.value.validate((valid) => {
+        if (valid) {
+          state.isLoading = true
+          _this.$axios
+            .post('https://api.pridenjoyco.id/signin', form)
+            .then((resp) => {
+              if (resp.status === 200) {
+                const data = resp.data.data
+                localStorage.setItem('token', data.accessToken)
+                _this.$store.commit('auth/SET_SESSION', data.user)
+                window.location.reload()
+              }
+              state.isLoading = false
+            })
+            .catch((err) => {
+              state.isLoading = false
+              _this.$message({
+                type: 'warning',
+                message: err.response
+                  ? err.response.data.messages
+                  : 'Invalid password',
+              })
+            })
+        }
+      })
+    }
+
+    return {
+      state,
+      form,
+      rules,
+      refForm,
+      submitForm,
+      isLoginDialog,
+    }
   },
   head: () => ({
-    title: 'Login - Pride n Joy',
+    title: 'Login - Padiraharja',
   }),
 }
 </script>

@@ -1,5 +1,5 @@
 <template lang="pug">
-    el-select.w-100(:loading="result.isLoading", placeholder="Ketik untuk mencari kota", remote, filterable, :remote-method="getLocations", @change="selectLocation", value-key="city_id", v-model="state.district")
+    el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Ketik untuk mencari kota", remote, filterable, :remote-method="getLocations", @change="selectLocation", value-key="city_id", v-model="state.district")
         el-option(v-for="item in state.cities" :key="item.city_id" :label="`${item.type} ${item.city_name}, ${item.province}`" :value="item")
 </template>
 

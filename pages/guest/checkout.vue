@@ -260,7 +260,7 @@ export default {
   },
 
   head: () => ({
-    title: 'Checkout - Pride n Joy',
+    title: 'Checkout - Padiraharja',
   }),
 }
 </script>
