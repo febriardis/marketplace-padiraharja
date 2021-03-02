@@ -1,7 +1,7 @@
 <template>
   <el-autocomplete
     v-model="innerValue"
-    class="inline-input"
+    class="inline-input search-width"
     :fetch-suggestions="querySearch"
     size="small"
     placeholder="Cari sesuatu di Padiraharja"

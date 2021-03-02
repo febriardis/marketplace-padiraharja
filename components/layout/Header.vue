@@ -15,18 +15,18 @@
 
       #header2
         .me-container.d-flex.align-items-center.justify-content-between
-          router-link.mr-3(to="/")
+          router-link.mr-3.hide-on-mobile(to="/")
             img(src="../../assets/images/logo/logo.png" width="110" height="auto")
-          SearchField.w-50.mr-3(v-model="state.search")
+          SearchField.mr-3(v-model="state.search")
+          
           //- if loggedin
-          .hide-on-mobile
-            .d-flex.align-items-center
-              el-badge.mr-3(:value="12" class="item") 
-                el-button(icon="el-icon-shopping-cart-2" size="small") 
-              el-badge.mr-3(:value="12" class="item") 
-                el-button(icon="el-icon-chat-square" size="small") 
-              .border-left.pl-4.ml-3
-                UserDropdown
+          .d-flex.align-items-center
+            el-badge.mr-3.hide-on-mobile(:value="12" class="item") 
+              el-button(icon="el-icon-shopping-cart-2" @click="$router.push({name: 'cart'})" size="small") 
+            el-badge.mr-3(:value="12" class="item") 
+              el-button(icon="el-icon-chat-square" size="small") 
+            .border-left.pl-4.ml-3.hide-on-mobile
+              UserDropdown
 
           //- else
           //- .d-flex.align-items-center

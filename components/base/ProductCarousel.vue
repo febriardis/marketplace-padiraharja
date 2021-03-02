@@ -18,3 +18,23 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@media (max-width: 641px) {
+  .products-carousel {
+    .VueCarousel {
+      margin: 0 10px;
+    }
+    .VueCarousel-navigation {
+      .VueCarousel-navigation-prev {
+        padding: 0;
+        margin-right: 0;
+      }
+      .VueCarousel-navigation-next {
+        padding: 0;
+        margin-left: 0;
+      }
+    }
+  }
+}
+</style>

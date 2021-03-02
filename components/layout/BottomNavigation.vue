@@ -1,15 +1,59 @@
 <template lang="pug">
     .show-on-mobile
         .bottom-navigation
-            button.nav(type="button")
-                i.fas.fa-home
-            button.nav(type="button")
-                i.fas.fa-clipboard-list
-            button.nav(type="button")
-                i.fas.fa-shopping-cart
-            button.nav(type="button")
-                i.fas.fa-user-circle
+            button.nav(
+              type="button" 
+              v-for="(item, key) in menus"
+              @click="$router.push({path: item.router})" 
+              :class="{ 'active' : item.isActive }")
+                i.fas(:class="item.icon")
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      menus: [
+        {
+          router: '/',
+          isActive: false,
+          icon: 'fa-home',
+        },
+        {
+          router: null,
+          isActive: false,
+          icon: 'fa-clipboard-list',
+        },
+        {
+          router: '/cart',
+          isActive: false,
+          icon: 'fa-shopping-cart',
+        },
+        {
+          router: null,
+          isActive: false,
+          icon: 'fa-user-circle',
+        },
+      ],
+    }
+  },
+
+  watch: {
+    $route: {
+      immediate: true,
+      deep: true,
+      handler(value) {
+        const routePath = value.path
+        this.menus.forEach((element) => {
+          if (element.router === routePath) {
+            element.isActive = true
+          }
+        })
+      },
+    },
+  },
+}
+</script>
 
 <style lang="scss">
 .bottom-navigation {

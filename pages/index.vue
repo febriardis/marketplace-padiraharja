@@ -21,7 +21,7 @@
 
     section.products-list.mt-4
       .row
-        .col-md-2.col-sm-6.col-6(v-for="item in 20" :key="item")
+        .col-lg-2.col-md-3.col-sm-6.col-6(v-for="item in 20" :key="item")
           ProductInfo.w-100
     
     //- bottom navigation
@@ -47,6 +47,15 @@ export default {
   position: sticky;
   border-radius: 10px;
   z-index: 99;
-  top: 110px;
+}
+@media (min-width: 769px) {
+  .category-list {
+    top: 110px;
+  }
+}
+@media (max-width: 769px) {
+  .category-list {
+    top: 98px;
+  }
 }
 </style>
