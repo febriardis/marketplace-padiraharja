@@ -5,15 +5,15 @@
                 .d-flex.align-items-center
                     .show-in-phone.border.p-2(style="border-radius:100%")
                         i.el-icon-user
-                    span.hide-on-mobile.text-capitalize.ml-2 Febri Ardi... 
+                    span.hide-on-mobile.text-capitalize.ml-2 {{userData ? userData.name : ''}} 
                     i.el-icon-arrow-down.el-icon--right
 
             el-dropdown-menu(slot='dropdown')
-                .main-user-dropdown.pb-3.px-3.pt-2
+                .main-user-dropdown.pb-3.px-3.pt-2(v-if="userData")
                     el-card(shadow="always", :body-style="{ padding: '10px' }")
                         .d-flex.align-items-center.justify-content-between
                             .main-user-profile-left.d-flex.align-items-center
-                                p.m-0 Febri Ardi Saputra
+                                p.m-0 {{userData.name}}
                             .main-user-profile-right
                                 .d-flex
                                     el-dropdown-item(command="AccountProfile")
@@ -40,46 +40,30 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
-
 export default {
   computed: {
-    // ...mapGetters(['isAuthenticated', 'profile']),
+    userData: (vm) => vm.$store.getters['auth/getSessionData'],
   },
   methods: {
     handleCommandUser(command) {
       if (command === 'logout') {
         this.logout()
-        return
+        // return
       }
-      if (command === 'Voucher') {
-        this.notification('Coming soon', 'info')
-        return
-      }
-      this.$router.push({
-        name: command,
-      })
+      // if (command === 'Voucher') {
+      //   this.notification('Coming soon', 'info')
+      //   return
+      // }
+      // this.$router.push({
+      //   name: command,
+      // })
     },
     logout() {
-      this.$confirm('Are you sure want to logout?', 'Logout')
-        .then(() => {
-          this.$store.dispatch('AUTH_LOGOUT').then(() => {
-            this.$socket.disconnect()
-            this.$router
-              .push({
-                name: 'landing',
-              })
-              .catch((err) => {
-                console.log(err)
-              })
-            setTimeout(() => {
-              window.location.reload()
-            }, 300)
-          })
-        })
-        .catch(() => {
-          console.log('cancel logout')
-        })
+      this.$confirm('Are you sure want to logout?', 'Logout').then(() => {
+        localStorage.removeItem('token')
+        localStorage.removeItem('vuex')
+        window.location.reload()
+      })
     },
   },
 }

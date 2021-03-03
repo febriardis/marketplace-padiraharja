@@ -52,7 +52,7 @@ export default {
     { src: '~plugins/element-ui', ssr: false },
     { src: '~plugins/custom-ui', ssr: false },
     { src: '~plugins/axios', ssr: false },
-    { src: '~plugins/local-storage', ssr: false },
+    { src: '~plugins/localStorage', ssr: false },
     { src: '~plugins/three', ssr: false },
     { src: '~plugins/filters', ssr: false },
   ],

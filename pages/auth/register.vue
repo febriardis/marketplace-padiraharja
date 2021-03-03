@@ -122,7 +122,7 @@ export default {
         if (valid) {
           state.isLoading = true
           _this.$axios
-            .post('https://api.pridenjoyco.id/signup', form)
+            .post('http://api.emsacode.xyz/signup', form)
             .then((resp) => {
               if (resp.status === 200 || resp.status === 201) {
                 _this.$router.push({ name: 'auth-login' })

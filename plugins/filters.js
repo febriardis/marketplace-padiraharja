@@ -37,26 +37,13 @@ Vue.filter('compareDuration', (start, end) => {
   return moment(dE).diff(dS, 'seconds') - 7
 })
 
-Vue.filter('baseUrlCheck', function (value) {
-  if (value) {
-    const pathArray = value.split('/')
-    const protocol = pathArray[0]
-    const baseUrl = protocol + '//'
-    if (baseUrl === 'https://') {
-      return value
-    } else {
-      return `https://${value}`
-    }
-  }
-})
-
-Vue.filter('imageBaseUrl', function (value) {
+Vue.filter('imageView', function (value) {
   const pathArray = value.split('/')
   const protocol = pathArray[0]
   if (protocol === 'https:') {
     return value
   } else {
-    return `https://pridenjoy-space.${value}`
+    return `https://adminapi.emsacode.xyz/${value}`
   }
 })
 

@@ -1,6 +1,6 @@
 // colors
-$color-unique: #d60b0b;
-$color-cart: #ffd900;
+$color-unique: #DD0206;
+$color-cart: #FFC10D;
 
 // Responsive (Max Width)
 $breakpoint-desktop-sm: 1024px;
@@ -33,6 +33,11 @@ $breakpoint-mobile: 641px;
 
 .me-container {
   margin: 0 auto;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;;
 }
 
 @media (min-width: $breakpoint-tablet) {

@@ -1,12 +1,24 @@
 <template lang="pug">
-    a.product-info(href="javascript:void(0)" @click="$router.push({ name: 'product-slug', params: {slug: 2} })")
-        img(src="https://via.placeholder.com/150" class="product-img")
+    a.product-info(href="javascript:void(0)" @click="$router.push({ name: 'product-slug', params: {slug: product.id} })" v-if="product")
+        .product-image
+          img(:src="product.photo" class="product-img")
         .info-detail
-            p.font-weight-bold.m-0 Masker Kucing Emas Terbaru
+            p.font-weight-bold.m-0 {{product.name}}
             .mt-2.pb-2.d-flex.justify-content-between
-                p.m-0 Rp. 120.000
-                p.m-0 Stok: 10
+                p.m-0 Rp. {{product.price | price}}
+                p.m-0 Stok: {{product.stock}}
 </template>
+
+<script>
+export default {
+  props: {
+    product: {
+      type: Object,
+      default: null,
+    },
+  },
+}
+</script>
 
 <style lang="scss">
 .product-info {
@@ -19,8 +31,8 @@
   &:hover {
     color: #000000;
   }
-  .product-img {
-    width: 100%;
+  .product-image {
+    height: 180px;
   }
   .info-detail {
     margin: 10px;

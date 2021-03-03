@@ -3,7 +3,7 @@
         .listing-title
             h2.m-0 Produk Pasar Tradisional
         .row.mt-3
-            .col-md-2.col-sm-6.col-6(v-for="item in 20" :key="item")
+            .col-lg-2.col-md-3.col-sm-6.col-6(v-for="item in 20" :key="item")
                 ProductInfo.w-100
 </template>
 

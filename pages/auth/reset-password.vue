@@ -79,12 +79,11 @@ export default {
         if (valid) {
           state.isLoading = true
           _this.$axios
-            .post('https://api.pridenjoyco.id/signin', form)
+            .post('http://api.emsacode.xyz/signin', form)
             .then((resp) => {
               if (resp.status === 200) {
                 const data = resp.data.data
                 localStorage.setItem('token', data.accessToken)
-                _this.$store.commit('auth/SET_SESSION', data.user)
                 window.location.reload()
               }
               state.isLoading = false

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .homepage.mt-4
+  .homepage
     BannerCarousel
 
     //- produk tradisional
@@ -17,12 +17,12 @@
       ProductCarousel
     
     section.category-list.mt-4
-      CategoryCarousel
+      CategoryCarousel(v-model="current_category")
 
     section.products-list.mt-4
       .row
-        .col-lg-2.col-md-3.col-sm-6.col-6(v-for="item in 20" :key="item")
-          ProductInfo.w-100
+        .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, index) in products_by_category" :key="index")
+          ProductInfo.w-100(:product="item")
     
     //- bottom navigation
     BottomNavigation
@@ -36,6 +36,25 @@ export default {
     CategoryCarousel: () => import('@/components/base/CategoryCarousel'),
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
     ProductInfo: () => import('@/components/base/ProductInfo'),
+  },
+  data: () => ({
+    current_category: null,
+    products_by_category: [],
+  }),
+  watch: {
+    current_category(value) {
+      if (value) {
+        this.fetchProductByCategory(value)
+      }
+    },
+  },
+  methods: {
+    async fetchProductByCategory(id) {
+      const response = await this.$api.fetchData(`/product/category/${id}`)
+      if (response.status === 200) {
+        this.products_by_category = response.data.data
+      }
+    },
   },
 }
 </script>

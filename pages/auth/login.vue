@@ -48,8 +48,8 @@ export default {
     })
 
     const form = reactive({
-      email: '', // 'user@pnj.id',
-      password: '', // 'useruser',
+      email: 'rifardian@gmail.com',
+      password: '123456',
     })
 
     const rules = reactive({
@@ -91,12 +91,11 @@ export default {
         if (valid) {
           state.isLoading = true
           _this.$axios
-            .post('https://api.pridenjoyco.id/signin', form)
+            .post('http://api.emsacode.xyz/auth/login', form)
             .then((resp) => {
               if (resp.status === 200) {
                 const data = resp.data.data
-                localStorage.setItem('token', data.accessToken)
-                _this.$store.commit('auth/SET_SESSION', data.user)
+                localStorage.setItem('token', data.token)
                 window.location.reload()
               }
               state.isLoading = false

@@ -1,35 +1,26 @@
 <template lang="pug">
-    .product-detail.mt-3
+    .product-detail.mt-3(v-if="product")
         .row
             .col-md-5.col-sm-5
-                img.w-100(src="https://via.placeholder.com/150")
+                img.w-100(:src="product.photo")
             .col
-                h3 Apple Airpods Gen 2 OEM 1:1 GPS Rename Wireless Charging
-                h2 Rp. 134.500
+                h3.mb-0 {{product.name}}
+                h2.mt-2 Rp. {{product.price | price}}
             
                 .product-detail
                     p.font-weight-bold.mt-0.mb-2 Informasi Produk
-                    p.mt-0.mb-2 Kondisi: Baru
-                    p.mt-0.mb-2 Berat: 99 Gram
-                    p.mt-0.mb-2 Kategori: Earphone
-                    p.mt-0.mb-2 Etalase: Semua Etalase
-                    p.mt-0.mb-2 kita juga ready pouch / case nya di cek yaa :D
-
-                    p.mt-0.mb-2 https://www.tokopedia.com/archive-ronny-acc/soft-case-silikon-pouch-airpods-pro-gen-2-spigen-pelindung-casing
-                    p.mt-0.mb-2 Kita juga ready charger warless Airpods original
-
-                    p.mt-0.mb-2 https://tokopedia.link/AyYCOHMxadb
+                    p.mt-0.mb-2 {{product.description}}
 
                 .product-detail.border-top.pt-2.mt-2
                     p.font-weight-bold.mt-0.mb-2 Informasi Penjual
                     .row
-                        .col-md-6
+                        .col-md-8
                             .d-flex.align-items-center
                                 .img-seller.mr-3
-                                    img(src="https://via.placeholder.com/150" width="45" height="45")
+                                    img(:src="product.merchant.logo" width="45" height="45")
                                 .detail-seller
-                                    h3.mt-0.mb-1 Olala Online Shop
-                                    p.text-color-gray.text-size-small.m-0 Jakarta Selatan
+                                    h3.mt-0.mb-1 {{product.merchant.name}}
+                                    p.text-color-gray.text-size-small.m-0.text-capitalize {{product.merchant.city.name + ', ' + product.merchant.province.name | lowercase}}
                         .col.text-right
                             el-button(type="unique" size="small")
                               | Hubungi Penjual
@@ -39,8 +30,9 @@
                         p.text-size-small.text-color-gray Kuantitas:
                         el-input-number(
                             size="medium"
+                            v-model="quantity"
                             :min="1" 
-                            :max="10")
+                            :max="product.stock")
                     .row.mt-3
                         .col-md-4
                             el-button.w-100(type="cart")
@@ -54,3 +46,28 @@
         
     
 </template>
+
+<script>
+export default {
+  data: () => ({
+    product: null,
+    quantity: 1,
+  }),
+  computed: {
+    productId() {
+      return this.$route.params.slug
+    },
+  },
+  mounted() {
+    this.fetchProductDetail()
+  },
+  methods: {
+    async fetchProductDetail() {
+      const response = await this.$api.fetchData(`/product/${this.productId}`)
+      if (response.status === 200) {
+        this.product = response.data.data
+      }
+    },
+  },
+}
+</script>

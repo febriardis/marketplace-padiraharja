@@ -24,6 +24,7 @@
 
 <script>
 export default {
+  middleware: 'authenticated',
   components: {
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
   },

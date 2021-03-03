@@ -1,20 +1,47 @@
 <template>
   <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3>{{ item }}</h3>
+    <el-carousel-item v-for="(item, key) in banners" :key="key">
+      <img
+        :src="$filters.imageView(item.image)"
+        alt="banner"
+        class="banner-img"
+      />
     </el-carousel-item>
   </el-carousel>
 </template>
 
+<script>
+export default {
+  data: () => ({
+    banners: [],
+  }),
+  mounted() {
+    this.fetchBanners()
+  },
+  methods: {
+    async fetchBanners() {
+      const response = await this.$api.fetchData('/public/banner')
+      if (response.status === 200) {
+        this.banners = response.data.data
+      }
+    },
+  },
+}
+</script>
+
 <style>
+.banner-img {
+  width: 100%;
+  height: 100%;
+}
 @media (min-width: 769px) {
   .el-carousel__container {
-    height: 300px;
+    height: 450px;
   }
 }
 @media (max-width: 769px) {
   .el-carousel__container {
-    height: 200px;
+    height: 250px;
   }
 }
 .el-carousel__item h3 {

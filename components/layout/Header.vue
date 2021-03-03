@@ -7,7 +7,7 @@
           .menu
             ul.right-nav
               li.hide-on-mobile 
-                a(href="#") Berita Harian
+                a(href="javascript:void(0)" @click="$router.push({name: 'news'})") Berita Harian
               li
                 a(href="#") Hubungi Admin
               li.hide-on-mobile
@@ -20,7 +20,7 @@
           SearchField.mr-3(v-model="state.search")
           
           //- if loggedin
-          .d-flex.align-items-center
+          .d-flex.align-items-center(v-if="isAuth")
             el-badge.mr-3.hide-on-mobile(:value="12" class="item") 
               el-button(icon="el-icon-shopping-cart-2" @click="$router.push({name: 'cart'})" size="small") 
             el-badge.mr-3(:value="12" class="item") 
@@ -29,7 +29,7 @@
               UserDropdown
 
           //- else
-          //- .d-flex.align-items-center
+          .d-flex.align-items-center(v-else)
             el-button(plain size="small" @click="$router.push({ name: 'auth-login' })") Masuk
             el-button.hide-on-mobile(type="unique" size="small" @click="$router.push({ name: 'auth-register' })") Daftar
 
@@ -53,7 +53,6 @@ export default {
     const { result, fetchData } = handler()
     const state = reactive({
       isLoginDialog: false,
-      userData: null,
       search: '',
     })
 
@@ -61,7 +60,7 @@ export default {
       () => result,
       (value) => {
         if (value.isSuccess) {
-          state.userData = value.response.data
+          root.$store.commit('auth/SET_SESSION', value.response.data)
         }
       },
       { deep: true }

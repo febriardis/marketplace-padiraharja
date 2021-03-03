@@ -20,7 +20,7 @@ export default {
           icon: 'fa-home',
         },
         {
-          router: null,
+          router: '/news',
           isActive: false,
           icon: 'fa-clipboard-list',
         },
@@ -30,7 +30,7 @@ export default {
           icon: 'fa-shopping-cart',
         },
         {
-          router: null,
+          router: '/account',
           isActive: false,
           icon: 'fa-user-circle',
         },
