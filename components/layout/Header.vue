@@ -23,9 +23,9 @@
           .d-flex.align-items-center(v-if="isAuth")
             el-badge.mr-3.hide-on-mobile(:value="12" class="item") 
               el-button(icon="el-icon-shopping-cart-2" @click="$router.push({name: 'cart'})" size="small") 
-            el-badge.mr-3(:value="12" class="item") 
+            el-badge(:value="12" class="item") 
               el-button(icon="el-icon-chat-square" size="small") 
-            .border-left.pl-4.ml-3.hide-on-mobile
+            .border-left.pl-4.ml-4.hide-on-mobile
               UserDropdown
 
           //- else

@@ -50,6 +50,16 @@ export default {
   border-radius: 10px;
   padding: 10px;
   z-index: 99;
-  top: 110px;
+}
+
+@media (min-width: 769px) {
+  .listing-title {
+    top: 110px;
+  }
+}
+@media (max-width: 769px) {
+  .listing-title {
+    top: 98px;
+  }
 }
 </style>
