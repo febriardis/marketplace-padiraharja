@@ -8,7 +8,7 @@
             :space-padding='4',
             :pagination-enabled='false')
             slide(v-for="(item, index) in products", :key="index")
-              ProductInfo(v-if="index < 1" :product="item")
+              ProductInfo(v-if="index < 10" :product="item")
 </template>
 
 <script>
@@ -34,7 +34,7 @@ export default {
       if (this.categoryId) {
         url = `/product/category/${this.categoryId}`
       } else {
-        url = '/product'
+        url = '/products'
       }
       const response = await this.$api.fetchData(url)
       if (response.status === 200) {
