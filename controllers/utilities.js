@@ -168,7 +168,7 @@ export const utilities = () => {
 
   const postPaid = async (data) => {
     paid.isLoading = true
-    const response = await api.submitData('/orders/pay', data)
+    const response = await api.postData('/orders/pay', data)
     if (response.status === 200) {
       paid.response = response.data
       paid.isLoading = false

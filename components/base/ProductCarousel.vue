@@ -34,7 +34,7 @@ export default {
       if (this.categoryId) {
         url = `/product/category/${this.categoryId}`
       } else {
-        url = '/products'
+        url = '/product/product/all'
       }
       const response = await this.$api.fetchData(url)
       if (response.status === 200) {

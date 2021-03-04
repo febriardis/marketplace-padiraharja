@@ -11,7 +11,7 @@ export const handler = () => {
 
   const postData = async (url, data) => {
     form.isLoading = true
-    const response = await api.submitData(url, data)
+    const response = await api.postData(url, data)
     if (response.status === 200 || response.status === 201) {
       form.isLoading = false
       form.isSuccess = true
@@ -24,7 +24,7 @@ export const handler = () => {
 
   const putData = async (url, data) => {
     form.isLoading = true
-    const response = await api.updateData(url, data)
+    const response = await api.putData(url, data)
     if (response.status === 200 || response.status === 201) {
       form.isLoading = false
       form.isSuccess = true

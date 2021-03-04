@@ -1,7 +1,7 @@
 <template lang="pug">
     .user-dropdown.d-flex
         el-dropdown(trigger="click", @command="handleCommandUser")
-            .el-dropdown-link
+            a.el-dropdown-link(href="javascript:void(0)")
                 .d-flex.align-items-center
                     .show-in-phone.border.p-2(style="border-radius:100%")
                         i.el-icon-user
@@ -16,9 +16,9 @@
                                 p.m-0 {{userData.name}}
                             .main-user-profile-right
                                 .d-flex
-                                    el-dropdown-item(command="AccountProfile")
+                                    el-dropdown-item(command="store")
                                         | Toko
-                                    el-dropdown-item(command="AccountProfile")
+                                    el-dropdown-item(command="profile")
                                         | Profil
 
                     .main-user-menu.pt-3
@@ -26,15 +26,13 @@
                             el-dropdown-item(command="AccountSaldo")
                                 | Saldo
                                 span.font-weight-bold.i-text-normal-size
-                                    | Rp. 100.000
+                                    | Rp. {{userData ? userData.balance : 0 | price}}
 
                         .main-user-menu-right
                             el-dropdown-item(command="AccountTransaction")
                                 | Riwayat Transaksi
                             el-dropdown-item(command="AccountOrder")
                                 | Tambah Bank
-                            el-dropdown-item(command="AccountSetting")
-                                | Setting
                             el-dropdown-item.mt-3(command="logout", icon="el-icon-switch-button")
                                 | Logout
 </template>
@@ -54,9 +52,11 @@ export default {
       //   this.notification('Coming soon', 'info')
       //   return
       // }
-      // this.$router.push({
-      //   name: command,
-      // })
+      else {
+        this.$router.push({
+          name: command,
+        })
+      }
     },
     logout() {
       this.$confirm('Are you sure want to logout?', 'Logout').then(() => {

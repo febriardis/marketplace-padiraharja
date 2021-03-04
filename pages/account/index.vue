@@ -1,5 +1,5 @@
 <template lang="pug">
-    .containers
+    .homepage
         el-tabs.mt-2(v-model="activeName")
             el-tab-pane(label="Profil Saya" name="first")
                 //- ProfileViewer
@@ -15,8 +15,8 @@ export default {
   // layout: 'auth',
   // middleware: 'authenticated',
   components: {
-    ProfileViewer: () => import('@/components/account/Profile'),
-    AddressViewer: () => import('@/components/account/Address'),
+    // ProfileViewer: () => import('@/components/account/Profile'),
+    // AddressViewer: () => import('@/components/account/Address'),
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
   },
   data: () => ({

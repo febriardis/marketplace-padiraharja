@@ -1,15 +1,15 @@
 <template lang="pug">
     .cart.mt-4
         h2 Berita Harian Majalengka
-        el-card.mb-2(class="box-card" v-for="item in 2" :key="item")
-            .row
-                .col-md-8
-                    .d-flex
+        el-card.mb-2.card-link(class="box-card" v-for="item in news" :key="item")
+            a.card-news(href="javascript:void(0)" @click="$router.push({name: 'news-slug', params: {slug: item.id}})")
+                .row
+                    .col-md-1.col-3
                         .product-img
-                            img(src="https://via.placeholder.com/150" width="80")
-                        .info-detail.ml-3
-                            p.m-0.font-weight-light 17 Desember 2020 19:34
-                            p.m-0.font-weight-bold Judul Berita
+                            img(:src="item.image" width="80" height="80")
+                    .col
+                        p.m-0.font-weight-light {{item.created_at | formatDate('DD MMMM YYYY HH:mm')}}
+                        p.m-0.font-weight-bold {{item.title}}
                 
         //- bottom navigation
         BottomNavigation
@@ -20,5 +20,31 @@ export default {
   components: {
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
   },
+
+  data: () => ({
+    news: [],
+  }),
+
+  mounted() {
+    this.fetchUserCart()
+  },
+
+  methods: {
+    async fetchUserCart() {
+      const response = await this.$api.fetchData('/public/news')
+      if (response.status === 200) {
+        this.news = response.data.data
+      }
+    },
+  },
 }
 </script>
+
+<style lang="scss">
+.card-news {
+  display: block;
+  &:hover {
+    color: #000000;
+  }
+}
+</style>

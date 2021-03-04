@@ -2,7 +2,7 @@
     .product-detail.mt-3(v-if="product")
         .row
             .col-md-5.col-sm-5
-                img.w-100(:src="product.photo")
+                img.w-100.img-detail(:src="product.photo")
             .col
                 h3.mb-0 {{product.name}}
                 h2.mt-2 Rp. {{product.price | price}}
@@ -32,10 +32,10 @@
                             size="medium"
                             v-model="quantity"
                             :min="1" 
-                            :max="product.stock")
+                            :max="parseInt(product.stock)")
                     .row.mt-3
                         .col-md-4
-                            el-button.w-100(type="cart")
+                            el-button.w-100(type="cart" @click="submit('cart')")
                               | + Keranjang
                         .col-md-4
                             .show-on-mobile.mt-2
@@ -62,6 +62,12 @@ export default {
     this.fetchProductDetail()
   },
   methods: {
+    async submit(type) {
+      await this.$api.postData(`/${type}`, {
+        product_id: this.product.id,
+        quantity: this.quantity,
+      })
+    },
     async fetchProductDetail() {
       const response = await this.$api.fetchData(`/product/${this.productId}`)
       if (response.status === 200) {
@@ -71,3 +77,17 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+@media (min-width: 769px) {
+  .img-detail {
+    height: 450px;
+  }
+}
+
+@media (max-width: 769px) {
+  .img-detail {
+    height: 300px;
+  }
+}
+</style>

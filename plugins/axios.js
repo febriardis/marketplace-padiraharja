@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-// import NProgress from 'nprogress'
 import Router from 'vue-router'
 
 const HTTP = axios.create({
@@ -11,20 +10,14 @@ const HTTP = axios.create({
 
 // before a request is made start the nprogress
 HTTP.interceptors.request.use((config) => {
-  //   NProgress.start()
   return config
 })
 
 // before a response is returned stop nprogress
 HTTP.interceptors.response.use(
   (response) => {
-    // NProgress.done()
     // success interceptor
-    if (
-      response.status === 200 ||
-      response.status === 201 ||
-      response.status === 404
-    ) {
+    if (response.status === 200 || response.status === 404) {
       return response
     } else {
       // auto logout
@@ -43,7 +36,6 @@ HTTP.interceptors.response.use(
     return Promise.reject(error)
   },
   (error) => {
-    // NProgress.done()
     // error interceptor
     const data = error.response
     // auto logout

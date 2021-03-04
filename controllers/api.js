@@ -27,14 +27,13 @@ const _send = async (
     })
 
     if (method.toLocaleLowerCase() !== 'get') {
-      if (response.data.messages) {
+      if (response.data.status) {
         Message({
           type: 'success',
-          message: response.data.messages,
+          message: response.data.status,
         })
       }
     }
-
     return response
   } catch (error) {
     const data = error.response
@@ -52,13 +51,13 @@ const _send = async (
         } else {
           Message({
             type: 'warning',
-            message: data.data.messages,
+            message: data.data.message,
           })
         }
       } else {
         Message({
           type: 'warning',
-          message: data.data.messages,
+          message: data.data.message,
         })
       }
     } else {
@@ -73,10 +72,10 @@ const apiList = {
   fetchData: async (url, params) => {
     return await _send('GET', url, params)
   },
-  submitData: async (url, data) => {
+  postData: async (url, data) => {
     return await _send('POST', url, null, data)
   },
-  updateData: async (url, data) => {
+  putData: async (url, data) => {
     return await _send('PUT', url, null, data)
   },
   patchData: async (url, data) => {

@@ -169,7 +169,7 @@ export default {
         const weight = props.attrDetail.fabrics
           ? props.attrDetail.fabrics.weight
           : 0
-        const response = await _this.$api.submitData('/orders/logistic_cost', {
+        const response = await _this.$api.postData('/orders/logistic_cost', {
           destination: props.subdistrictId,
           weight: weight * props.quantity,
           courier,

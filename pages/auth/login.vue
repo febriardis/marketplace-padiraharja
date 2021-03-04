@@ -87,28 +87,16 @@ export default {
 
     function submitForm() {
       const _this = ctx.root
-      refForm.value.validate((valid) => {
+      refForm.value.validate(async (valid) => {
         if (valid) {
           state.isLoading = true
-          _this.$axios
-            .post('http://api.emsacode.xyz/auth/login', form)
-            .then((resp) => {
-              if (resp.status === 200) {
-                const data = resp.data.data
-                localStorage.setItem('token', data.token)
-                window.location.reload()
-              }
-              state.isLoading = false
-            })
-            .catch((err) => {
-              state.isLoading = false
-              _this.$message({
-                type: 'warning',
-                message: err.response
-                  ? err.response.data.messages
-                  : 'Invalid password',
-              })
-            })
+          const response = await _this.$api.postData('/auth/login', form)
+          if (response.status === 200) {
+            const data = response.data.data
+            localStorage.setItem('token', data.token)
+            window.location.reload()
+          }
+          state.isLoading = false
         }
       })
     }

@@ -17,7 +17,7 @@
         .me-container.d-flex.align-items-center.justify-content-between
           router-link.mr-3.hide-on-mobile(to="/")
             img(src="../../assets/images/logo/logo.png" width="110" height="auto")
-          SearchField.mr-3(v-model="state.search")
+          SearchField.mr-3
           
           //- if loggedin
           .d-flex.align-items-center(v-if="isAuth")

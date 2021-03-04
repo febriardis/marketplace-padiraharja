@@ -14,8 +14,8 @@
                             el-input(type="text" v-model="form.name" placeholder="Silahkan masukan nama lengkap anda")
                         .row
                             .col-md-6
-                              el-form-item(prop="name" label="Nomor Telepon")
-                                  el-input(type="text" v-model="form.name" placeholder="Silahkan masukan nama lengkap anda")
+                              el-form-item(prop="phone" label="Nomor Telepon")
+                                  el-input(type="text" v-model="form.phone" placeholder="Silahkan masukan nama lengkap anda")
                             .col-md-6
                               el-form-item(prop="email" label="Email")
                                   el-input(type="email" v-model="form.email" placeholder="Silahkan masukan Email")
@@ -24,36 +24,26 @@
                               el-form-item(prop="password" label="Kata Sandi")
                                   el-input(type="password" v-model="form.password" placeholder="Mohon isi password")
                             .col-md-6
-                              el-form-item(prop="password" label="Konfirmasi Kata Sandi")
-                                  el-input(type="password" v-model="form.password" placeholder="Mohon isi password")
+                              el-form-item(prop="password_confirmation" label="Konfirmasi Kata Sandi")
+                                  el-input(type="password" v-model="form.password_confirmation" placeholder="Mohon isi password")
                         
-                        el-form-item(prop="name" label="Alamat")
-                            el-input(type="textarea" v-model="form.name" placeholder="Silahkan masukan nama lengkap anda")
+                        el-form-item(prop="address" label="Alamat")
+                            el-input(type="textarea" v-model="form.address" placeholder="Silahkan masukan alamat lengkap anda")
                     
                         .row
                             .col-md-6
-                              el-form-item(prop="cityId" label="Provinsi")
-                                f-search-location(v-model="form.cityId" @input="fetchSubdistrict()")
+                              el-form-item(prop="province_id" label="Provinsi")
+                                SearchProvinceField(v-model="form.province_id")
                             .col-md-6
-                              el-form-item(prop="subdistrictId" label="Kota/Kabupaten")
-                                el-select.w-100(v-model="form.subdistrictId" filterable default-first-option)
-                                  el-option(
-                                    v-for="item in state.subdistricts"
-                                    :key="item.subdistrict_id"
-                                    :label="item.subdistrict_name"
-                                    :value="item.subdistrict_id")
+                              el-form-item(prop="city_id" label="Kota/Kabupaten")
+                                SearchCityField(v-model="form.city_id" :province-id="form.province_id")
                         .row
                             .col-md-6
-                              el-form-item(prop="cityId" label="Kecamatan")
-                                f-search-location(v-model="form.cityId" @input="fetchSubdistrict()")
+                              el-form-item(prop="district_id" label="Kecamatan")
+                                SearchDistrictField(v-model="form.district_id" :city-id="form.city_id")
                             .col-md-6
-                              el-form-item(prop="subdistrictId" label="Kelurahan")
-                                el-select.w-100(v-model="form.subdistrictId" filterable default-first-option)
-                                  el-option(
-                                    v-for="item in state.subdistricts"
-                                    :key="item.subdistrict_id"
-                                    :label="item.subdistrict_name"
-                                    :value="item.subdistrict_id")
+                              el-form-item(prop="village_id" label="Kelurahan")
+                                SearchVillageField(v-model="form.village_id" :district-id="form.district_id")
                         
                         el-button.mt-3.w-100(
                             type="unique"
@@ -79,24 +69,38 @@ export default {
     })
 
     const form = reactive({
-      name: '',
-      email: '',
-      password: '',
+      name: null,
+      phone: null,
+      email: null,
+      password: null,
+      password_confirmation: null,
+      address: null,
+      province_id: null,
+      city_id: null,
+      district_id: null,
+      village_id: null,
     })
 
     const rules = reactive({
       name: [
         {
           required: true,
-          message: 'Please input your password',
-          trigger: 'blur',
+          message: 'Please input your fullname',
+          trigger: 'change',
+        },
+      ],
+      phone: [
+        {
+          required: true,
+          message: 'Please input your phone number',
+          trigger: 'change',
         },
       ],
       email: [
         {
           required: true,
           message: 'Please input your email',
-          trigger: 'blur',
+          trigger: 'change',
         },
         {
           type: 'email',
@@ -104,12 +108,53 @@ export default {
           trigger: ['blur', 'change'],
         },
       ],
-
       password: [
         {
           required: true,
           message: 'Please input your password',
-          trigger: 'blur',
+          trigger: 'change',
+        },
+      ],
+      password_confirmation: [
+        {
+          required: true,
+          message: 'Please input your password confirmation',
+          trigger: 'change',
+        },
+      ],
+      address: [
+        {
+          required: true,
+          message: 'Please input your address',
+          trigger: 'change',
+        },
+      ],
+      province_id: [
+        {
+          required: true,
+          message: 'Please select your province',
+          trigger: 'change',
+        },
+      ],
+      city_id: [
+        {
+          required: true,
+          message: 'Please select your city',
+          trigger: 'change',
+        },
+      ],
+      district_id: [
+        {
+          required: true,
+          message: 'Please select your district',
+          trigger: 'change',
+        },
+      ],
+      village_id: [
+        {
+          required: true,
+          message: 'Please select your village',
+          trigger: 'change',
         },
       ],
     })
@@ -118,32 +163,16 @@ export default {
 
     function submitForm() {
       const _this = ctx.root
-      refForm.value.validate((valid) => {
+      refForm.value.validate(async (valid) => {
         if (valid) {
           state.isLoading = true
-          _this.$axios
-            .post('http://api.emsacode.xyz/signup', form)
-            .then((resp) => {
-              if (resp.status === 200 || resp.status === 201) {
-                _this.$router.push({ name: 'auth-login' })
-              }
-              state.isLoading = false
-            })
-            .catch((err) => {
-              _this.$message({
-                type: 'warning',
-                message: err.response.data.messages,
-              })
-              state.isLoading = false
-            })
+          const response = await _this.$api.postData('/auth/register', form)
+          if (response.status === 200) {
+            _this.$router.push({ name: 'auth-login' })
+          }
+          state.isLoading = false
         }
       })
-    }
-
-    function fetchSubdistrict() {
-      // fetchData('/addresses/subdistricts', {
-      //   city_id: form.cityId,
-      // })
     }
 
     return {
@@ -152,7 +181,6 @@ export default {
       rules,
       refForm,
       submitForm,
-      fetchSubdistrict,
     }
   },
   head: () => ({

@@ -1,7 +1,7 @@
 <template>
   <el-autocomplete
     v-model="innerValue"
-    class="inline-input search-width"
+    class="inline-input search-width search-product"
     :fetch-suggestions="querySearch"
     size="small"
     placeholder="Cari sesuatu di Padiraharja"
@@ -9,60 +9,75 @@
     @select="handleSelect"
   >
     <i slot="suffix" class="el-icon-search el-input__icon"> </i>
+    <template slot-scope="{ item }">
+      <div class="d-flex align-items-center">
+        <div class="product-image mr-3">
+          <img :src="item.photo" width="50px" height="50px" />
+        </div>
+        <div class="info-detail">
+          <p class="m-0 mb-2 text-size-small">{{ item.value }}</p>
+          <p class="m-0 text-size-mini text-capitalize text-color-gray">
+            {{ item.merchant ? item.merchant.city.name : null | lowercase }}
+          </p>
+        </div>
+      </div>
+    </template>
   </el-autocomplete>
 </template>
 
 <script>
 export default {
-  props: {
-    value: {
-      type: String,
-      default: null,
-    },
-  },
-
   data() {
     return {
-      links: [
-        { value: 'vue', link: 'https://github.com/vuejs/vue' },
-        { value: 'element', link: 'https://github.com/ElemeFE/element' },
-        { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
-        { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
-        { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
-        { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
-        { value: 'babel', link: 'https://github.com/babel/babel' },
-      ],
+      innerValue: null,
+      products: [],
     }
   },
 
-  computed: {
-    innerValue: {
-      get() {
-        return this.value
-      },
-      set(newValue) {
-        this.$emit('input', newValue)
-      },
-    },
+  mounted() {
+    this.fetchProducts()
   },
 
   methods: {
     handleSelect(item) {
-      // console.log(item)
+      this.$router.push({ name: 'product-slug', params: { slug: item.link } })
     },
-    querySearch(queryString, cb) {
-      const links = this.links
+    async querySearch(queryString, cb) {
+      const products = this.products
       const results = queryString
-        ? links.filter(this.createFilter(queryString))
-        : links
+        ? await this.fetchProducts(queryString)
+        : products
       // call callback function to return suggestions
       cb(results)
     },
-    createFilter(queryString) {
-      return (link) => {
-        return link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    async fetchProducts(queryString) {
+      const response = await this.$api.fetchData('/product/product/all', {
+        name: queryString,
+      })
+      if (response.status === 200) {
+        const data = []
+        response.data.data.forEach((el) => {
+          data.push({
+            value: el.name,
+            link: el.id,
+            ...el,
+          })
+        })
+        if (queryString) {
+          return data
+        } else {
+          this.products = data
+        }
       }
     },
   },
 }
 </script>
+
+<style lang="scss">
+.el-autocomplete-suggestion li {
+  padding: 5px 20px;
+  line-height: unset;
+  border-bottom: 1px solid;
+}
+</style>
