@@ -7,7 +7,7 @@
       .d-flex.justify-content-between.align-items-center
         h2 Produk Pasar Tradisional
         a.red-link(href="javascript:void(0)" @click="$router.push({ name: 'product-listing', query: {type: 1} })") Lihat Semua
-      ProductCarousel
+      ProductCarousel(:category-id="3")
 
     //- produk terbaru 
     section.products-list.mt-4

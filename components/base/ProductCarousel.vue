@@ -7,14 +7,42 @@
             :per-page-custom='[[320, 6], [641, 6], [1024, 6]]',
             :space-padding='4',
             :pagination-enabled='false')
-            slide(v-for="(item, index) in 20", :key="index")
-              ProductInfo
+            slide(v-for="(item, index) in products", :key="index")
+              ProductInfo(v-if="index < 1" :product="item")
 </template>
 
 <script>
 export default {
   components: {
     ProductInfo: () => import('@/components/base/ProductInfo'),
+  },
+  props: {
+    categoryId: {
+      type: Number,
+      default: null,
+    },
+  },
+  data: () => ({
+    products: [],
+  }),
+  mounted() {
+    this.fetchProducts()
+  },
+  methods: {
+    async fetchProducts() {
+      let url
+      if (this.categoryId) {
+        url = `/product/category/${this.categoryId}`
+      } else {
+        url = '/product'
+      }
+      const response = await this.$api.fetchData(url)
+      if (response.status === 200) {
+        this.products = response.data.data
+      } else {
+        this.products = []
+      }
+    },
   },
 }
 </script>
