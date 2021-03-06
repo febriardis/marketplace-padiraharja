@@ -54,7 +54,7 @@
                 :total="state.pagination.total_record")
         
         
-        ManageProductDialog(
+        FormProduct(
             v-model="state.isDialog"
             :product-data="state.productData"
             @change="fetchProducts" 

@@ -13,7 +13,7 @@
           SearchProvinceROField(v-model="form.province_id")
         .row
             .col-md-6
-                el-form-item(prop="city_id" label="Kota/Kabupaten")
+                el-form-item(prop="city_id" label="Kabupaten/Kota")
                   SearchCityROField(v-model="form.city_id" :province-id="form.province_id")
             .col-md-6
                 el-form-item(prop="district_id" label="Kecamatan")

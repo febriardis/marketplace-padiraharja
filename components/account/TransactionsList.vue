@@ -1,10 +1,10 @@
 <template lang="pug">
-    .containers
+    .transaction-list
         h3 Daftar Transaksi
         .card-custom.pl-3.pr-3
             el-tabs(v-model="state.activeName" @tab-click="handleClick")
                 el-tab-pane(v-for='item in state.orderStatus' :key='item.id' :label='item.name' :name='item.id')
-                    .order-on-desktop
+                    .hide-on-mobile
                       .order-head
                           .row
                               .col-md-3
@@ -29,7 +29,7 @@
                         :payload="order"
                         :fetchOrders="fetchOrders")
 
-                    .order-on-phone
+                    .show-on-mobile
                       //- .order-head
                           .row
                               .col-md-3
@@ -58,11 +58,10 @@
                       el-pagination(
                         background
                         layout="prev, pager, next"
-                        :current-page.sync="filter.offset"
-                        :page-size="filter.limit"
+                        :current-page.sync="filters.page"
+                        :page-size="filters.limit"
                         :total="state.pagination.total_record")
         
-        f-loading-screen(v-if="result.isLoading")
 </template>
 
 <script>
@@ -70,49 +69,48 @@ import { handler } from '@/controllers/handler'
 import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
 
 export default {
-  middleware: 'authenticated',
   components: {
-    OrderItems: () => import('@/components/old-transaction/OldList'),
-    OrderItemsPhone: () =>
-      import('@/components/old-transaction/OldListOnPhone'),
+    OrderItems: () => import('@/components/store/utilities/List'),
+    OrderItemsPhone: () => import('@/components/store/utilities/ListOnPhone'),
   },
   setup() {
     const { result, fetchData } = handler()
 
-    const filter = reactive({
-      order_status: null,
-      offset: 1,
+    const filters = reactive({
+      status: 'WAITING_PAYMENT',
+      page: 0,
       limit: 10,
     })
 
     const state = reactive({
-      activeName: 0,
+      activeName: 'WAITING_PAYMENT',
       orderStatus: [
-        { id: '0', name: 'Semua Pesanan' },
-        { id: '1', name: 'Menunggu Pembayaran' },
-        { id: '3', name: 'Sedang Diproses' },
-        { id: '4', name: 'Sedang Dikirim' },
-        { id: '5', name: 'Selesai' },
+        { id: 'WAITING_PAYMENT', name: 'Menunggu Pembayaran' },
+        { id: 'REQUESTED', name: 'Konfirmasi Pesanan' },
+        { id: 'DELIVERING', name: 'Pesanan Diantar' },
+        { id: 'FINISHED', name: 'Pesanan Selesai' },
+        { id: 'REJECTED', name: 'Pesanan Dibatalkan' },
       ],
       datas: [],
       pagination: null,
     })
 
     watch(
-      () => filter,
+      () => filters,
       () => {
         fetchOrders()
       },
       { deep: true }
     )
     watch(
-      () => result.response,
+      () => result,
       (value) => {
-        if (value.data && Object.keys(value.data).length !== 0) {
-          state.datas = value.data.rows
+        if (value.isSuccess) {
+          const data = value.response
+          state.datas = data.data
           state.pagination = {
-            total_record: value.data.count,
-            total_page: value.data.total_page,
+            total_record: parseInt(data.paging.page),
+            total_page: parseInt(data.paging.total_page),
           }
         }
       },
@@ -120,13 +118,13 @@ export default {
     )
 
     function fetchOrders() {
-      fetchData('/orders', filter)
+      fetchData('/transaction', filters)
     }
 
     function handleClick(tab) {
       state.datas = []
       state.pagination = null
-      filter.order_status = tab.label !== 'Semua Pesanan' ? tab.label : ''
+      filters.status = tab.name
     }
 
     onMounted(() => {
@@ -134,17 +132,13 @@ export default {
     })
 
     return {
-      filter,
+      filters,
       state,
       result,
       fetchOrders,
       handleClick,
     }
   },
-
-  head: () => ({
-    title: 'Transaction - Padiraharja',
-  }),
 }
 </script>
 
@@ -155,17 +149,5 @@ export default {
   padding: 10px;
   margin-top: 15px;
   border-radius: 4px;
-}
-
-.order-on-desktop {
-  @media (max-width: 395px) {
-    display: none;
-  }
-}
-.order-on-phone {
-  display: none !important;
-  @media (max-width: 395px) {
-    display: block !important;
-  }
 }
 </style>

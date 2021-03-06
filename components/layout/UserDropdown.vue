@@ -29,10 +29,10 @@
                                     | Rp. {{userData ? userData.balance : 0 | price}}
 
                         .main-user-menu-right
-                            el-dropdown-item(command="AccountTransaction")
+                            el-dropdown-item(command="account-banks")
+                                | Akun Bank
+                            el-dropdown-item(command="account-transactions")
                                 | Riwayat Transaksi
-                            el-dropdown-item(command="AccountOrder")
-                                | Tambah Bank
                             el-dropdown-item.mt-3(command="logout", icon="el-icon-switch-button")
                                 | Logout
 </template>
