@@ -2,7 +2,8 @@
     .product-list
         .row.align-items-center
             .col
-                p.m-0 Atur Produk yang tersedia di toko anda
+              h3.mb-0 Produk Toko
+              p.mt-2.mb-0.text-color-gray Atur produk - produk yang tersedia di toko anda.
             .col.text-right
                 el-button(size="small" @click="state.productData = null, state.isDialog = true" plain icon="el-icon-plus")
                     | Tambah Produk
@@ -43,7 +44,7 @@
                 .col.text-center
                     .d-flex
                         el-button(type="primary" @click="state.productData = item, state.isDialog = true" size="mini" plain icon="el-icon-edit")
-                        el-button(type="danger" @click="deleteOrder(item.id)" size="mini" icon="el-icon-delete")
+                        el-button(type="danger" @click="deleteProduct(item.id)" size="mini" icon="el-icon-delete")
         .card-custom.p-2.mt-1(v-if="state.pagination")
             el-pagination(
                 background
@@ -68,7 +69,7 @@ import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
 
 export default {
   setup(_, { root }) {
-    const { result, fetchData, response: deleted, deleteData } = handler()
+    const { result, fetchData, form: deleted, deleteData } = handler()
 
     const state = reactive({
       products: [],
@@ -99,6 +100,7 @@ export default {
     watch(
       () => deleted,
       (value) => {
+        console.log('value', value)
         if (value.isSuccess) {
           fetchProducts()
         }
@@ -106,7 +108,7 @@ export default {
       { deep: true }
     )
 
-    function deleteOrder(id) {
+    function deleteProduct(id) {
       const _this = root
       _this
         .$confirm('Apakah anda yakin akan menghapus produk ini?', 'Warning', {
@@ -134,7 +136,7 @@ export default {
       state,
       deleted,
       filters,
-      deleteOrder,
+      deleteProduct,
       fetchProducts,
     }
   },

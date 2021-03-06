@@ -13,12 +13,12 @@
                     el-card(shadow="always", :body-style="{ padding: '10px' }")
                         .d-flex.align-items-center.justify-content-between
                             .main-user-profile-left.d-flex.align-items-center
-                                p.m-0 {{userData.name}}
+                                p.m-0.ml-3 {{userData.name}}
                             .main-user-profile-right
                                 .d-flex
                                     el-dropdown-item(command="store")
                                         | Toko
-                                    el-dropdown-item(command="profile")
+                                    el-dropdown-item(command="account")
                                         | Profil
 
                     .main-user-menu.pt-3
@@ -46,13 +46,7 @@ export default {
     handleCommandUser(command) {
       if (command === 'logout') {
         this.logout()
-        // return
-      }
-      // if (command === 'Voucher') {
-      //   this.notification('Coming soon', 'info')
-      //   return
-      // }
-      else {
+      } else if (command !== 'AccountSaldo') {
         this.$router.push({
           name: command,
         })

@@ -5,8 +5,14 @@
           h4.mt-2.mb-2 Buat Toko
           p.mt-0.text-size-small.text-color-gray Isi detail tokomu, dan bangun bisnis kecilmu dengan padiraharja sekarang juga.
           Form
-      .row.mt-4
+      .row.mt-4(v-else)
         .col-md-3
+          .store-detail.border-top.border-bottom.border-right.pb-2.pt-2
+            .d-flex.align-items-center
+                .product-image.mr-3
+                    img(:src="store_data.logo" width="40" height="40")
+                .product-detail
+                    p.font-weight-bold.m-0 {{store_data.name}}
           el-menu.el-menu-vertical-demo(default-active="1")
             el-menu-item(index="1" @click="onSidebarClicked")
               i.fas.fa-store(style="margin-right:10px")
@@ -22,7 +28,7 @@
               span(slot='title') Riwayat Transaksi
 
         .col-md-9
-          FormStore(:storeData="store_data" v-if="sidebar_type === '1'")
+          FormStore(:storeData="store_data" @change="fetchStore" v-if="sidebar_type === '1'")
           ProductsList(v-else-if="sidebar_type === '2'")
           FormAddress(v-else-if="sidebar_type === '3'")
           TransactionsList(v-else-if="sidebar_type === '4'")
@@ -68,3 +74,9 @@ export default {
   }),
 }
 </script>
+
+<style lang="scss">
+.store-detail {
+  padding-left: 20px;
+}
+</style>

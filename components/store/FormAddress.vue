@@ -1,4 +1,7 @@
 <template lang="pug">
+  .form-address
+    h3.mb-0 Alamat Pengiriman Toko
+    p.mt-2.mb-2.text-color-gray Atur alamat toko anda sebagai alamat kirim untuk menentukan biaya servis kurir pengiriman.
     el-form(
         :model="form"
         :rules="rules"

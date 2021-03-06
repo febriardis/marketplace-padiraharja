@@ -1,29 +1,32 @@
 <template lang="pug">
-    .homepage
-        el-tabs.mt-2(v-model="activeName")
-            el-tab-pane(label="Profil Saya" name="first")
-                //- ProfileViewer
-            el-tab-pane(label="Daftar Alamat" name="seconds")
-                //- AddressViewer
+  .homepage
+    .hide-on-mobile
+      ProfileViewer
+
+    .show-on-mobile
+      el-tabs.mt-2(v-model="activeName")
+          el-tab-pane(label="Profil Saya" name="first")
+              //- ProfileViewer
+          el-tab-pane(label="Daftar Alamat" name="seconds")
+              //- AddressViewer
+              
+      //- bottom navigation
+      BottomNavigation
                 
-        //- bottom navigation
-        BottomNavigation
 </template>
 
 <script>
 export default {
-  // layout: 'auth',
-  // middleware: 'authenticated',
+  middleware: 'authenticated',
   components: {
-    // ProfileViewer: () => import('@/components/account/Profile'),
-    // AddressViewer: () => import('@/components/account/Address'),
+    // ProfileViewer: () => import('@/components/profile/Profile'),
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
   },
   data: () => ({
     activeName: 'first',
   }),
   head: () => ({
-    title: 'Accont Setting - Padiraharja',
+    title: 'Account Setting - Padiraharja',
   }),
 }
 </script>

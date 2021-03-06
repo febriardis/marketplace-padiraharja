@@ -1,7 +1,7 @@
 <template lang="pug">
     .cart.mt-4
         h2 Berita Harian Majalengka
-        el-card.mb-2.card-link(class="box-card" v-for="item in news" :key="item")
+        el-card.mb-2.card-link(class="box-card" v-for="(item, key) in news" :key="key")
             a.card-news(href="javascript:void(0)" @click="$router.push({name: 'news-slug', params: {slug: item.id}})")
                 .row
                     .col-md-1.col-3

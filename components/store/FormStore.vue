@@ -1,4 +1,7 @@
 <template lang="pug">
+  .form-store
+    h3.mb-0 Profil Toko
+    p.mt-2.mb-2.text-color-gray Isi data toko anda dengan lengkap.
     el-form(
         :model="form"
         :rules="rules"
@@ -33,7 +36,7 @@
 
 <script>
 import { handler } from '@/controllers/handler'
-import { reactive, ref, watch } from '@nuxtjs/composition-api'
+import { onMounted, reactive, ref, watch } from '@nuxtjs/composition-api'
 export default {
   props: {
     storeData: {
@@ -41,7 +44,7 @@ export default {
       default: null,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { form: response, postData } = handler()
 
     const form = reactive({
@@ -121,19 +124,37 @@ export default {
     }
 
     watch(
-      () => props.storeData,
+      () => response,
       (value) => {
-        if (value) {
-          form.name = value.name
-          form.address = value.address
-          form.province_id = value.province ? value.province.id : null
-          form.city_id = value.city ? value.city.id : null
-          form.district_id = value.district ? value.district.id : null
-          form.village_id = value.village ? value.village.id : null
+        if (value.isSuccess) {
+          emit('change')
         }
       },
       { deep: true }
     )
+
+    function setStoreData(value) {
+      if (value) {
+        form.name = value.name
+        form.address = value.address
+        form.province_id = value.province ? value.province.id : null
+        form.city_id = value.city ? value.city.id : null
+        form.district_id = value.district ? value.district.id : null
+        form.village_id = value.village ? value.village.id : null
+      }
+    }
+
+    watch(
+      () => props.storeData,
+      (value) => {
+        setStoreData(value)
+      },
+      { deep: true }
+    )
+
+    onMounted(() => {
+      setStoreData(props.storeData)
+    })
 
     return {
       form,

@@ -32,8 +32,8 @@
 export default {
   components: {
     BannerCarousel: () => import('@/components/homepage/BannerCarousel'),
-    ProductCarousel: () => import('@/components/base/ProductCarousel'),
-    CategoryCarousel: () => import('@/components/base/CategoryCarousel'),
+    ProductCarousel: () => import('@/components/homepage/ProductCarousel'),
+    CategoryCarousel: () => import('@/components/homepage/CategoryCarousel'),
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
     ProductInfo: () => import('@/components/base/ProductInfo'),
   },

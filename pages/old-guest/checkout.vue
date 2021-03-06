@@ -49,9 +49,9 @@ export default {
   name: 'Checkout',
   middleware: 'login',
   components: {
-    OrderInfo: () => import('@/components/checkout/OrderInfo'),
-    AddDialog: () => import('@/components/address/AddDialog'),
-    ListDialog: () => import('@/components/address/ListDialog'),
+    OrderInfo: () => import('@/components/old-checkout/OrderInfo'),
+    AddDialog: () => import('@/components/old-address/AddDialog'),
+    ListDialog: () => import('@/components/old-address/ListDialog'),
   },
   setup(_, ctx) {
     const { form: response, postData } = handler()
