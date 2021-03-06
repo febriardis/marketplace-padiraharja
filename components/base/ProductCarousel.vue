@@ -23,6 +23,10 @@ export default {
     },
   },
   data: () => ({
+    filters: {
+      page: 0,
+      limit: 10,
+    },
     products: [],
   }),
   mounted() {
@@ -36,7 +40,7 @@ export default {
       } else {
         url = '/product/product/all'
       }
-      const response = await this.$api.fetchData(url)
+      const response = await this.$api.fetchData(url, this.filters)
       if (response.status === 200) {
         this.products = response.data.data
       } else {

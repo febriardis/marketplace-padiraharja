@@ -38,6 +38,10 @@ export default {
     ProductInfo: () => import('@/components/base/ProductInfo'),
   },
   data: () => ({
+    filters: {
+      page: 0,
+      limit: 10,
+    },
     current_category: null,
     products_by_category: [],
   }),
@@ -50,7 +54,10 @@ export default {
   },
   methods: {
     async fetchProductByCategory(id) {
-      const response = await this.$api.fetchData(`/product/category/${id}`)
+      const response = await this.$api.fetchData(
+        `/product/category/${id}`,
+        this.filters
+      )
       if (response.status === 200) {
         this.products_by_category = response.data.data
       }

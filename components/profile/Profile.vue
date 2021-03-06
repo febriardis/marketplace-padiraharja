@@ -37,7 +37,7 @@
                           el-form-item(prop="village_id" label="Kelurahan")
                             SearchVillageField(v-model="form.village_id" :district-id="form.district_id")
                     .mt-3.text-right
-                      el-button(type='unique' @click="submitForm()" v-loading.fullscreen.lock="response.isLoading") Simpan
+                      el-button(type="primary" @click="submitForm()" v-loading.fullscreen.lock="response.isLoading") Simpan
 
 </template>
 
@@ -141,10 +141,10 @@ export default {
         form.phone = user.phone
         form.email = user.email
         form.address = user.address
-        form.province_id = user.province.id
-        form.city_id = user.city.id
-        form.district_id = user.district.id
-        form.village_id = user.village.id
+        form.province_id = user.province ? user.province.id : null
+        form.city_id = user.city ? user.city.id : null
+        form.district_id = user.district ? user.district.id : null
+        form.village_id = user.village ? user.village.id : null
       }
     })
 

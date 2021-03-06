@@ -14,7 +14,7 @@
                           el-form-item(prop="email" label="Email")
                               el-input(type="email" v-model="form.email" placeholder="Email")
                           el-button.mt-3.w-100(
-                              type="unique"
+                              type="primary"
                               :loading="state.isLoading"
                               @click="submitForm()")
                               | Reset Password 

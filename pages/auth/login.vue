@@ -20,7 +20,7 @@
                               a.red-link(href="javasciprt:void(0)" @click="isLoginDialog = false, $router.push({ name: 'auth-reset-password' })") Lupa Password?
 
                           el-button.mt-3.w-100(
-                              type="unique"
+                              type="primary"
                               :loading="state.isLoading"
                               @click="submitForm()")
                               | LOGIN

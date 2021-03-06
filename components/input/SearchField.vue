@@ -17,7 +17,11 @@
         <div class="info-detail">
           <p class="m-0 mb-2 text-size-small">{{ item.value }}</p>
           <p class="m-0 text-size-mini text-capitalize text-color-gray">
-            {{ item.merchant ? item.merchant.city.name : null | lowercase }}
+            {{
+              item.merchant && item.merchant.city
+                ? item.merchant.city.name
+                : null | lowercase
+            }}
           </p>
         </div>
       </div>
@@ -76,8 +80,8 @@ export default {
 
 <style lang="scss">
 .el-autocomplete-suggestion li {
-  padding: 5px 20px;
-  line-height: unset;
-  border-bottom: 1px solid;
+  padding: 5px 20px !important;
+  line-height: unset !important;
+  border-bottom: 1px solid !important;
 }
 </style>

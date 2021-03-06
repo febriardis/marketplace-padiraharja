@@ -22,7 +22,7 @@
                                     h3.mt-0.mb-1 {{product.merchant.name}}
                                     p.text-color-gray.text-size-small.m-0.text-capitalize {{product.merchant.city.name + ', ' + product.merchant.province.name | lowercase}}
                         .col.text-right
-                            el-button(type="unique" size="small")
+                            el-button(type="primary" size="small")
                               | Hubungi Penjual
 
                 .web-action.border-top.mt-3
@@ -35,11 +35,11 @@
                             :max="parseInt(product.stock)")
                     .row.mt-3
                         .col-md-4
-                            el-button.w-100(type="cart" @click="submit('cart')")
+                            el-button.w-100(type="warning" @click="submit('cart')")
                               | + Keranjang
                         .col-md-4
                             .show-on-mobile.mt-2
-                            el-button.w-100(type="unique")
+                            el-button.w-100(type="primary")
                               | Beli
 
         .action-card

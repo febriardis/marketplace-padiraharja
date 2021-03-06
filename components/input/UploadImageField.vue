@@ -4,6 +4,7 @@
     :class="{ center: isCenter }"
     :style="{ width: width }"
   >
+    <div class="clear"></div>
     <div class="input-icon">
       <div class="preview-container" :style="{ width: width, height: height }">
         <img
@@ -18,23 +19,20 @@
           class="d-flex justify-content-center align-items-center"
           style="height: 100%"
         >
-          <button
-            class="button-image"
-            type="button"
-            @click="$refs.file.click()"
-          >
-            Pilih {{ label }}
-          </button>
+          <el-button plain size="small" @click="$refs.file.click()">
+            Choose {{ label }}
+          </el-button>
         </div>
       </div>
-      <button
+      <el-button
         v-if="imageUrl"
-        class="button-image mt-2"
-        type="button"
+        plain
+        size="small"
+        class="w-100 mt-1"
         @click="$refs.file.click()"
       >
-        Pilih {{ label }}
-      </button>
+        Change {{ label }}
+      </el-button>
       <input
         v-show="false"
         ref="file"
@@ -56,7 +54,7 @@ export default {
     },
     label: {
       type: String,
-      default: 'Gambar',
+      default: 'Image',
     },
     width: {
       type: String,
@@ -68,12 +66,17 @@ export default {
     },
     previewImage: {
       type: String,
-      default: 'https://via.placeholder.com/150',
+      default: null,
     },
   },
   data: () => ({
     imageUrl: null,
   }),
+  watch: {
+    previewImage(value) {
+      this.imageUrl = value
+    },
+  },
   mounted() {
     this.imageUrl = this.previewImage
   },
@@ -94,6 +97,7 @@ export default {
     margin: 0 auto;
   }
   .input-icon {
+    // text-align: center;
     .preview-container {
       border: 1px solid #ababab;
       img {
@@ -103,14 +107,5 @@ export default {
       }
     }
   }
-}
-.button-image {
-  width: 100%;
-  padding: 8px 12px;
-  background-color: #fff;
-  color: rgba(0, 0, 0, 0.54);
-  cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>

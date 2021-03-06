@@ -46,7 +46,7 @@
                                 SearchVillageField(v-model="form.village_id" :district-id="form.district_id")
                         
                         el-button.mt-3.w-100(
-                            type="unique"
+                            type="primary"
                             :loading="state.isLoading"
                             @click="submitForm()")
                             | Daftar

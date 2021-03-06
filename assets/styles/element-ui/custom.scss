@@ -7,29 +7,15 @@ $breakpoint-desktop-sm: 1024px;
 $breakpoint-tablet: 769px;
 $breakpoint-mobile: 641px;
 
-.el-button--unique {
-  color: #FFF;
-  background-color: $color-unique;
-  border-color: $color-unique;
-  &:hover, &:focus {
-    color: #FFF;
-    background-color: $color-unique;
-    border-color: $color-unique;
-    opacity: 0.5;
-  }
-}
+// Settings
+$--color-primary: $color-unique;
+$--color-warning: $color-cart;
 
-.el-button--cart {
-  color: #FFF;
-  background-color: $color-cart;
-  border-color: $color-cart;
-  &:hover, &:focus {
-    color: #FFF;
-    background-color: $color-cart;
-    border-color: $color-cart;
-    opacity: 0.5;
-  }
-}
+// Icon Path
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+// Main CSS
+@import "~element-ui/packages/theme-chalk/src/index";
 
 .me-container {
   margin: 0 auto;

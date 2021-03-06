@@ -31,7 +31,7 @@
           //- else
           .d-flex.align-items-center(v-else)
             el-button(plain size="small" @click="$router.push({ name: 'auth-login' })") Masuk
-            el-button.hide-on-mobile(type="unique" size="small" @click="$router.push({ name: 'auth-register' })") Daftar
+            el-button.hide-on-mobile(type="primary" size="small" @click="$router.push({ name: 'auth-register' })") Daftar
 
 </template>
 
