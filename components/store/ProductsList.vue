@@ -100,7 +100,6 @@ export default {
     watch(
       () => deleted,
       (value) => {
-        console.log('value', value)
         if (value.isSuccess) {
           fetchProducts()
         }

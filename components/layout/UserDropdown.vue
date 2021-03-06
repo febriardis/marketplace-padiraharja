@@ -29,9 +29,9 @@
                                     | Rp. {{userData ? userData.balance : 0 | price}}
 
                         .main-user-menu-right
-                            el-dropdown-item(command="account-banks")
+                            el-dropdown-item(command="banks")
                                 | Akun Bank
-                            el-dropdown-item(command="account-transactions")
+                            el-dropdown-item(command="transactions")
                                 | Riwayat Transaksi
                             el-dropdown-item.mt-3(command="logout", icon="el-icon-switch-button")
                                 | Logout
@@ -46,10 +46,10 @@ export default {
     handleCommandUser(command) {
       if (command === 'logout') {
         this.logout()
+      } else if (command === 'banks' || command === 'transactions') {
+        this.$router.push({ name: 'account', query: { select: command } })
       } else if (command !== 'AccountSaldo') {
-        this.$router.push({
-          name: command,
-        })
+        this.$router.push({ name: command })
       }
     },
     logout() {
