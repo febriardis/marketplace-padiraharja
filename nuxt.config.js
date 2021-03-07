@@ -48,13 +48,12 @@ export default {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '~plugins/vue-carousel', ssr: false },
-    { src: '~plugins/element-ui', ssr: false },
-    { src: '~plugins/custom-ui', ssr: false },
     { src: '~plugins/axios', ssr: false },
-    { src: '~plugins/localStorage', ssr: false },
-    { src: '~plugins/three', ssr: false },
     { src: '~plugins/filters', ssr: false },
+    { src: '~plugins/custom-ui', ssr: false },
+    { src: '~plugins/element-ui', ssr: false },
+    { src: '~plugins/vue-carousel', ssr: false },
+    { src: '~plugins/localStorage', ssr: false },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)

@@ -4,7 +4,7 @@
             .col-md-8.col-lg-5
                 .register-card.mt-4
                     h3.mb-0 Silahkan Buat Akun
-                    p.text-color-gray.mt-2.mb-2 Nikmati berbelanja produk UMKM dengan mudah dari rumah 
+                    p.text-color-gray.mt-2.mb-2 Nikmati berbelanja produk UMKM dengan mudah dari rumah.
                     el-form(
                         :model="form"
                         :rules="rules"
