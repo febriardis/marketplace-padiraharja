@@ -21,10 +21,12 @@
           
           //- if loggedin
           .d-flex.align-items-center(v-if="isAuth")
-            el-badge.mr-3.hide-on-mobile(:value="12" class="item") 
-              el-button(icon="el-icon-shopping-cart-2" @click="$router.push({name: 'cart'})" size="small") 
+            el-badge.mr-4.hide-on-mobile(:value="12" class="item") 
+              a.text-size-large(href="javascript:void(0)" @click="$router.push({name: 'cart'})")
+                i.fas.fa-shopping-cart
             el-badge(:value="12" class="item") 
-              el-button(icon="el-icon-chat-square" size="small") 
+              a.text-size-large(href="javascript:void(0)")
+                i.fas.fa-comment-dots
             .border-left.pl-4.ml-4.hide-on-mobile
               UserDropdown
 

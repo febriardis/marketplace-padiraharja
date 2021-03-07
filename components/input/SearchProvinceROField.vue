@@ -1,14 +1,18 @@
 <template lang="pug">
-    el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Pilih Provinsi", filterable, value-key="id", v-model="innerValue")
-        el-option(v-for="(item, key) in state.provinces" :key="key" :label="item.province" :value="item.province_id")
+    el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Pilih Provinsi", filterable, @change="selectProvince", value-key="province_id", v-model="state.province")
+        el-option(v-for="(item, key) in state.provinces" :key="key" :label="item.province" :value="item")
 </template>
 
 <script>
-import { computed, onMounted, reactive, watch } from '@nuxtjs/composition-api'
+import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
 import { handler } from '@/controllers/handler'
 export default {
   props: {
     value: {
+      type: [String, Object],
+      default: null,
+    },
+    dataValue: {
       type: String,
       default: null,
     },
@@ -17,6 +21,7 @@ export default {
     const { result, fetchData } = handler()
     const state = reactive({
       provinces: [],
+      province: null,
     })
 
     watch(
@@ -29,14 +34,13 @@ export default {
       { deep: true }
     )
 
-    const innerValue = computed({
-      get: () => {
-        return props.value
-      },
-      set(newValue) {
-        emit('input', newValue)
-      },
-    })
+    function selectProvince(data) {
+      if (props.dataValue === 'object') {
+        emit('input', data)
+      } else {
+        emit('input', data.province_id)
+      }
+    }
 
     function getProvinces() {
       fetchData('/raja-ongkir/province')
@@ -49,7 +53,7 @@ export default {
     return {
       state,
       result,
-      innerValue,
+      selectProvince,
     }
   },
 }

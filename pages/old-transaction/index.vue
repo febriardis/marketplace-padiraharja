@@ -62,7 +62,7 @@
                         :page-size="filter.limit"
                         :total="state.pagination.total_record")
         
-        f-loading-screen(v-if="result.isLoading")
+        LoadingScreen(v-if="result.isLoading")
 </template>
 
 <script>

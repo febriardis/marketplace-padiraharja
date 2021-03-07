@@ -39,7 +39,7 @@
                               | + Keranjang
                         .col-md-4
                             .show-on-mobile.mt-2
-                            el-button.w-100(type="primary")
+                            el-button.w-100(type="primary" @click="submit('checkout')")
                               | Beli
 
         .action-card
@@ -63,10 +63,20 @@ export default {
   },
   methods: {
     async submit(type) {
-      await this.$api.postData(`/${type}`, {
-        product_id: this.product.id,
-        quantity: this.quantity,
-      })
+      if (type === 'cart') {
+        await this.$api.postData(`/${type}`, {
+          product_id: this.product.id,
+          quantity: this.quantity,
+        })
+      } else {
+        this.$router.push({
+          name: 'checkout',
+          query: {
+            product_id: this.product.id,
+            quantity: this.quantity,
+          },
+        })
+      }
     },
     async fetchProductDetail() {
       const response = await this.$api.fetchData(`/product/${this.productId}`)

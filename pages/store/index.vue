@@ -21,17 +21,21 @@
               i.fas.fa-list(style="margin-right:16px")
               span(slot='title') Produk
             el-menu-item(index="3" @click="onSidebarClicked")
+              i.fas.fa-hand-holding-usd(style="margin-right:16px")
+              span(slot='title') Tarik Saldo
+            el-menu-item(index="4" @click="onSidebarClicked")
               i.fas.fa-map-pin(style="margin-right:22px")
               span(slot='title') Alamat Pengiriman
-            el-menu-item(index="4" @click="onSidebarClicked")
+            el-menu-item(index="5" @click="onSidebarClicked")
               i.fas.fa-history(style="margin-right:15px")
               span(slot='title') Riwayat Transaksi
 
         .col-md-9
           FormStore(:storeData="store_data" @change="fetchStore" v-if="sidebar_type === '1'")
           ProductsList(v-else-if="sidebar_type === '2'")
-          FormAddress(v-else-if="sidebar_type === '3'")
-          TransactionsList(v-else-if="sidebar_type === '4'")
+          FormWithdraw(v-else-if="sidebar_type === '3'")
+          FormAddress(v-else-if="sidebar_type === '4'")
+          TransactionsList(v-else-if="sidebar_type === '5'")
           
 </template>
 
@@ -41,6 +45,7 @@ export default {
   components: {
     FormStore: () => import('@/components/store/FormStore'),
     ProductsList: () => import('@/components/store/ProductsList'),
+    FormWithdraw: () => import('@/components/store/FormWithdraw'),
     FormAddress: () => import('@/components/store/FormAddress'),
     TransactionsList: () => import('@/components/store/TransactionsList'),
   },

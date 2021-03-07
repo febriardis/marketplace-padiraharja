@@ -7,7 +7,7 @@
 
 <style lang="scss">
 .loading-screen {
-  z-index: 2;
+  z-index: 99;
   background: rgba(0, 0, 0, 0.5);
   color: #ffffff;
   position: fixed;

@@ -56,6 +56,7 @@ export default {
     },
     async fetchProducts(queryString) {
       const response = await this.$api.fetchData('/product/product/all', {
+        page: 0,
         name: queryString,
       })
       if (response.status === 200) {

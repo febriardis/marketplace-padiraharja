@@ -1,18 +1,22 @@
 <template lang="pug">
-    el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Pilih kecamatan", filterable, value-key="id", v-model="innerValue")
-        el-option(v-for="(item, key) in state.districts" :key="key" :label="item.name" :value="item.id")
+    el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Pilih kecamatan", filterable, @change="selectDistrict", value-key="subdistrict_id", v-model="state.subdistrict")
+        el-option(v-for="(item, key) in state.districts" :key="key" :label="item.subdistrict_name" :value="item")
 </template>
 
 <script>
-import { computed, reactive, watch } from '@nuxtjs/composition-api'
+import { reactive, watch } from '@nuxtjs/composition-api'
 import { handler } from '@/controllers/handler'
 export default {
   props: {
     value: {
-      type: String,
+      type: [String, Object],
       default: null,
     },
     cityId: {
+      type: String,
+      default: null,
+    },
+    dataValue: {
       type: String,
       default: null,
     },
@@ -21,6 +25,7 @@ export default {
     const { result, fetchData } = handler()
     const state = reactive({
       districts: [],
+      district: null,
     })
 
     watch(
@@ -36,21 +41,20 @@ export default {
     watch(
       () => props.cityId,
       (value) => {
-        innerValue.value = null
+        emit('input', null)
         if (value) {
           getDistricts(value)
         }
       }
     )
 
-    const innerValue = computed({
-      get: () => {
-        return props.value
-      },
-      set(newValue) {
-        emit('input', newValue)
-      },
-    })
+    function selectDistrict(data) {
+      if (props.dataValue === 'object') {
+        emit('input', data)
+      } else {
+        emit('input', data.subdistrict_id)
+      }
+    }
 
     function getDistricts(cityId) {
       fetchData(`/raja-ongkir/subdistrict/${cityId}`)
@@ -59,7 +63,7 @@ export default {
     return {
       state,
       result,
-      innerValue,
+      selectDistrict,
     }
   },
 }
