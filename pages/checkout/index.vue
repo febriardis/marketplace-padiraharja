@@ -188,7 +188,23 @@ export default {
       { deep: true }
     )
 
-    function deleteFormCart() {}
+    const deleteFormCart = async () => {
+      const response = await root.$api.deleteData(
+        `/cart/${state.productOrder.id}`
+      )
+      if (response.status === 200) {
+        fetchUserCart()
+      }
+    }
+
+    const fetchUserCart = async () => {
+      const response = await root.$api.fetchData('/cart')
+      if (response.status === 200) {
+        const data = response.data.data
+        const count = data.length > 0 ? data.length : null
+        root.$store.commit('user/SET_CART_COUNT', count)
+      }
+    }
 
     watch(
       () => result,

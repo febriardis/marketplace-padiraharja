@@ -17,6 +17,7 @@ import SearchDistrictField from '@/components/input/SearchDistrictField'
 import SearchVillageField from '@/components/input/SearchVillageField'
 import SelectCourierField from '@/components/input/SelectCourierField'
 import SelectBankField from '@/components/input/SelectBankField'
+import SelectBankWField from '@/components/input/SelectBankWField'
 // raja ongkir field
 import SearchProvinceROField from '@/components/input/SearchProvinceROField'
 import SearchCityROField from '@/components/input/SearchCityROField'
@@ -38,6 +39,7 @@ Vue.component('SearchDistrictField', SearchDistrictField)
 Vue.component('SearchVillageField', SearchVillageField)
 Vue.component('SelectCourierField', SelectCourierField)
 Vue.component('SelectBankField', SelectBankField)
+Vue.component('SelectBankWField', SelectBankWField)
 // raja ongkir field
 Vue.component('SearchProvinceROField', SearchProvinceROField)
 Vue.component('SearchCityROField', SearchCityROField)

@@ -35,10 +35,9 @@
                         el-button(type="danger" @click="deleteProduct(item.id)" size="mini" icon="el-icon-delete")
         
         FormBank(
-            v-model="state.isDialog"
-            :bank-data="state.bankData"
-            @change="fetchBanks" 
-            v-if="state.isDialog")
+          v-model="state.isDialog"
+          :bank-data="state.bankData"
+          @change="fetchBanks")
             
         LoadingScreen(v-if="deleted && deleted.isLoading")
 </template>

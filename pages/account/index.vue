@@ -14,16 +14,20 @@
               i.fas.fa-user(style="margin-right:18px")
               span(slot='title') Profil
             el-menu-item(index="2" @click="onSidebarClicked")
+              i.fas.fa-hand-holding-usd(style="margin-right:16px")
+              span(slot='title') Tarik Saldo
+            el-menu-item(index="3" @click="onSidebarClicked")
               i.fas.fa-credit-card(style="margin-right:16px")
               span(slot='title') Akun Bank
-            el-menu-item(index="3" @click="onSidebarClicked")
+            el-menu-item(index="4" @click="onSidebarClicked")
               i.fas.fa-history(style="margin-right:15px")
               span(slot='title') Riwayat Transaksi
 
         .col-md-9
           FormAccount(:userData="user_data" v-if="sidebar_type === '1'")
-          BanksList(v-else-if="sidebar_type === '2'")
-          TransactionsList(v-else-if="sidebar_type === '3'")
+          WithdrawList(v-else-if="sidebar_type === '2'")
+          BanksList(v-else-if="sidebar_type === '3'")
+          TransactionsList(v-else-if="sidebar_type === '4'")
 
     .show-on-mobile
       el-tabs.mt-2(v-model="tab_name")
@@ -42,6 +46,7 @@ export default {
   middleware: 'authenticated',
   components: {
     FormAccount: () => import('@/components/account/FormAccount'),
+    WithdrawList: () => import('@/components/account/WithdrawList'),
     BanksList: () => import('@/components/account/BanksList'),
     TransactionsList: () => import('@/components/account/TransactionsList'),
     BottomNavigation: () => import('@/components/layout/BottomNavigation'),
@@ -64,11 +69,11 @@ export default {
 
   mounted() {
     if (this.query === 'banks') {
-      this.sidebar_type = '2'
-      this.default_active_side = '2'
-    } else if (this.query === 'transactions') {
       this.sidebar_type = '3'
       this.default_active_side = '3'
+    } else if (this.query === 'transactions') {
+      this.sidebar_type = '4'
+      this.default_active_side = '4'
     }
   },
 
