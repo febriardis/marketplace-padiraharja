@@ -52,8 +52,9 @@ export default {
     { src: '~plugins/filters', ssr: false },
     { src: '~plugins/custom-ui', ssr: false },
     { src: '~plugins/element-ui', ssr: false },
-    { src: '~plugins/vue-carousel', ssr: false },
     { src: '~plugins/localStorage', ssr: false },
+    { src: '~plugins/vue-carousel', ssr: false },
+    { src: '~plugins/vue-mugen-scroll', ssr: false },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
