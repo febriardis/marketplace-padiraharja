@@ -75,30 +75,34 @@ export default {
 
     function submitForm() {
       const _this = ctx.root
-      refForm.value.validate((valid) => {
-        if (valid) {
-          state.isLoading = true
-          _this.$axios
-            .post('http://api.emsacode.xyz/signin', form)
-            .then((resp) => {
-              if (resp.status === 200) {
-                const data = resp.data.data
-                localStorage.setItem('token', data.accessToken)
-                window.location.reload()
-              }
-              state.isLoading = false
-            })
-            .catch((err) => {
-              state.isLoading = false
-              _this.$message({
-                type: 'warning',
-                message: err.response
-                  ? err.response.data.messages
-                  : 'Invalid password',
-              })
-            })
-        }
+      _this.$message({
+        type: 'warning',
+        message: 'Under Development!',
       })
+      // refForm.value.validate((valid) => {
+      //   if (valid) {
+      //     state.isLoading = true
+      //     _this.$axios
+      //       .post('http://api.emsacode.xyz/signin', form)
+      //       .then((resp) => {
+      //         if (resp.status === 200) {
+      //           const data = resp.data.data
+      //           localStorage.setItem('token', data.accessToken)
+      //           window.location.reload()
+      //         }
+      //         state.isLoading = false
+      //       })
+      //       .catch((err) => {
+      //         state.isLoading = false
+      //         _this.$message({
+      //           type: 'warning',
+      //           message: err.response
+      //             ? err.response.data.messages
+      //             : 'Invalid password',
+      //         })
+      //       })
+      //   }
+      // })
     }
 
     return {
