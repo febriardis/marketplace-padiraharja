@@ -9,7 +9,7 @@ import { handler } from '@/controllers/handler'
 export default {
   props: {
     value: {
-      type: Object,
+      type: Number,
       default: null,
     },
   },
