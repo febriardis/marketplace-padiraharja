@@ -41,16 +41,17 @@ export default {
       default: 0,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const state = reactive({
       total: 0,
     })
 
     const totalOrder = computed(() => {
-      return (
+      const total =
         parseInt(props.productPrice) * props.quantity +
         parseInt(props.deliveryFee)
-      )
+      emit('change', total)
+      return total
     })
 
     return {

@@ -38,15 +38,16 @@
                     .mt-2.pb-2.d-flex.justify-content-between
                       p.m-0.text-price.font-weight-bold Rp. {{state.productOrder.price | price}}
                       p.m-0 {{form.quantity}} Pcs
+              
               .col.text-color-gray.text-right
                 SelectCourierField(
                   v-model="form.courierSelected"
+                  @change="form.originCourierType = $event"
                   :address-data="form.addressSelected"
                   :quantity="parseInt(form.quantity)"
-                  :merchant-id="state.productOrder.merchant.id"
+                  :origin-address="state.originAddress"
                   :weight="parseInt(state.productOrder.weight)"
                   :disabled="!form.addressSelected")
-
                 p.text-color-gray.font-weight-light.text-danger(v-if="!form.addressSelected") 
                   | Silahkan masukan alamat pengiriman!
                 .delivery-detail.text-size-mini(v-else-if="form.courierSelected")
@@ -55,6 +56,7 @@
       .col-md-4
         .order-info
           OrderInfo(
+            @change="state.totalOrder = $event"
             :quantity="form.quantity"
             :delivery-fee="form.courierSelected ? form.courierSelected[1].cost[0].value : 0"
             :product-price="state.productOrder ? state.productOrder.price : 0")
@@ -62,7 +64,8 @@
 
         //- payment dialog
         PaymentDialog(
-          v-model="state.isPayDialog" 
+          v-model="state.isPayDialog"
+          :totalOrder="state.totalOrder"
           @change="params.payment_method_id = $event, postCheckout()")
 
     LoadingScreen(v-if="state.isLoadingContent")
@@ -83,9 +86,11 @@ export default {
     const { form: response, postData, result, fetchData } = handler()
 
     const state = reactive({
+      totalOrder: 0,
       isAddDialog: false,
       isPayDialog: false,
       productOrder: null,
+      originAddress: null,
       isLoadingContent: false,
     })
 
@@ -93,22 +98,17 @@ export default {
       quantity: null,
       addressSelected: null,
       courierSelected: null,
+      originCourierType: null,
     })
 
     const params = reactive({
       payment_method_id: null,
-
-      style_id: null,
-      fabric_id: null,
-      stitch_id: null,
-      size_id: null,
-      cutting_id: null,
-      qty: null,
-      address_id: null,
-      location_id: 2, // static
-      logistic_info: null,
-      logistic_charge: 0,
-      note: null,
+      is_balance: false,
+      amount: 0,
+      detail: [],
+      logistic: null,
+      origin_details: null,
+      destination_details: null,
     })
 
     function submitForm() {
@@ -128,24 +128,58 @@ export default {
     }
 
     function postCheckout() {
-      const query = root.$route.query
-      params.style_id = parseInt(query.style_id)
-      params.fabric_id = parseInt(query.fabric_id)
-      params.stitch_id = parseInt(query.stitch_id)
-      params.size_id = parseInt(query.size_id)
-      params.cutting_id = parseInt(query.cutting_id)
-      params.qty = parseInt(query.quantity)
-      params.address_id = form.addressSelected.id
-      params.logistic_info = form.courierSelected.courier
-      params.logistic_charge = form.courierSelected.courier_cost
-      postData('/orders', params)
+      params.amount = state.totalOrder
+      params.detail = [
+        {
+          product_id: state.productOrder.id,
+          quantity: form.quantity,
+        },
+      ]
+      params.logistic = {
+        courier_id: form.originCourierType.courier_id,
+        courier_service: form.courierSelected[1].service,
+        etd: form.courierSelected[1].cost[0].etd,
+        postal_fee: parseInt(form.courierSelected[1].cost[0].value),
+      }
+      params.origin_details = {
+        type: state.originAddress.city.type,
+        address: state.originAddress.address,
+        province_id: state.originAddress.province.province_id,
+        province: state.originAddress.province.province,
+        city_id: state.originAddress.city.city_id,
+        city: state.originAddress.city.city_name,
+        subdistrict_id: state.originAddress.subdistrict.subdistrict_id,
+        subdistrict_name: state.originAddress.subdistrict.subdistrict_name,
+      }
+      params.destination_details = {
+        type: form.originCourierType.originType,
+        address: form.addressSelected.address,
+        province_id: form.addressSelected.province_id.province_id,
+        province: form.addressSelected.province_id.province,
+        city_id: form.addressSelected.city_id.city_id,
+        city: form.addressSelected.city_id.city_name,
+        subdistrict_id: form.addressSelected.district_id.subdistrict_id,
+        subdistrict_name: form.addressSelected.district_id.subdistrict_name,
+      }
+      postData('/transaction', params)
     }
+
+    watch(
+      () => response,
+      (value) => {
+        if (value.isSuccess) {
+          console.log('value', value)
+        }
+      },
+      { deep: true }
+    )
 
     watch(
       () => result,
       (value) => {
         if (value.isSuccess) {
           state.productOrder = value.response.data
+          fetchOriginAddress()
         }
         state.isLoadingContent = false
       },
@@ -157,6 +191,15 @@ export default {
       const query = root.$route.query
       form.quantity = query.quantity
       fetchData(`/product/${query.product_id}`)
+    }
+
+    const fetchOriginAddress = async () => {
+      const response = await root.$api.fetchData(
+        `/raja-ongkir/origin-address/${state.productOrder.merchant.id}`
+      )
+      if (response.status === 200) {
+        state.originAddress = response.data.data
+      }
     }
 
     onMounted(() => {

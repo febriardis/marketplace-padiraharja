@@ -28,8 +28,8 @@ export default {
       type: Object,
       default: null,
     },
-    merchantId: {
-      type: Number,
+    originAddress: {
+      type: Object,
       default: null,
     },
   },
@@ -38,7 +38,6 @@ export default {
     const { couriers, fetchCouriers } = utilities()
 
     const state = reactive({
-      originAddress: null,
       courierCascader: {
         lazy: true,
         lazyLoad(node, resolve) {
@@ -75,8 +74,8 @@ export default {
 
     const fetchLogisticCost = async (courier) => {
       const response = await root.$api.postData('/raja-ongkir/cost', {
-        origin: state.originAddress
-          ? state.originAddress.subdistrict.subdistrict_id
+        origin: props.originAddress
+          ? props.originAddress.subdistrict.subdistrict_id
           : null,
         originType: 'subdistrict',
         destination: props.addressData.district_id.subdistrict_id,
@@ -85,7 +84,13 @@ export default {
         courier,
       })
       if (response.status === 200) {
-        return response.data.data
+        const data = response.data.data
+        const findCourier = couriers.list.find((el) => el.code === courier)
+        emit('change', {
+          courier_id: findCourier.id,
+          originType: data.origin_details.type,
+        })
+        return data
       } else {
         return null
       }
@@ -112,18 +117,8 @@ export default {
       },
     })
 
-    const fetchOriginAddress = async () => {
-      const response = await root.$api.fetchData(
-        `/raja-ongkir/origin-address/${props.merchantId}`
-      )
-      if (response.status === 200) {
-        state.originAddress = response.data.data
-      }
-    }
-
     onMounted(() => {
       fetchCouriers()
-      fetchOriginAddress()
     })
 
     return {
