@@ -2,41 +2,24 @@
     .products-listing
         .listing-title
           h2.m-0 Produk Pasar Tradisional
-        .row.mt-3
-          .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, key) in products" :key="key")
-            ProductInfo.w-100(:product="item")
+        section.products-list.mt-3
+          ProductListing(
+            :url="categoryId ? `/product/category/${categoryId}` : '/product/product/all'" 
+            :refresh.sync="refreshContent")
+        
 </template>
 
 <script>
 export default {
   components: {
-    ProductInfo: () => import('@/components/base/ProductInfo'),
+    ProductListing: () => import('@/components/base/ProductListing'),
   },
   data: () => ({
-    products: [],
+    refreshContent: true,
   }),
   computed: {
     categoryId() {
       return this.$route.query.category_id
-    },
-  },
-  mounted() {
-    this.fetchProducts()
-  },
-  methods: {
-    async fetchProducts() {
-      let url
-      if (this.categoryId) {
-        url = `/product/category/${this.categoryId}`
-      } else {
-        url = '/product/product/all'
-      }
-      const response = await this.$api.fetchData(url)
-      if (response.status === 200) {
-        this.products = response.data.data
-      } else {
-        this.products = []
-      }
     },
   },
 }
