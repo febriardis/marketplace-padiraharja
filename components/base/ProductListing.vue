@@ -1,17 +1,21 @@
 <template lang="pug">
   .product-listing
-    MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", v-loading="loadFirst", :should-handle="!isBusy", :handle-on-mount="false")
-      .row
-        .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, index) in products" :key="index")
-          ProductInfo.w-100(:product="item")
-      
-      .d-flex.justify-content-center.mb-4(v-if="isLoadMoreLoading")
-        el-button(type="primary", :loading="true")
-          | Loading...
+    .d-flex.justify-content-center.mt-3(v-if="loadFirst")
+      el-button(type="primary", :loading="true")
+        | Loading...
+    .scroller-product
+      MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", v-loading="loadFirst", :should-handle="!isBusy", :handle-on-mount="false")
+        .row
+          .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, index) in products" :key="index")
+            ProductInfo.w-100(:product="item")
+        
+        .d-flex.justify-content-center.mt-3(v-if="isLoadMoreLoading")
+          el-button(type="primary", :loading="true")
+            | Loading...
 
-      .d-flex.justify-content-center.mb-4(v-if="isNewest")
-        el-button(type="primary", plain, size="small", :disabled="true")
-          | Newest Product
+        .d-flex.justify-content-center.mt-3(v-if="isNewest")
+          el-button(type="primary", plain, size="small", :disabled="true")
+            | Newest Product
 </template>
 
 <script>
@@ -45,19 +49,12 @@ export default {
     isFirstLoad: false,
     isBusy: false,
     isLoadMoreLoading: false,
-    isLoading: false,
     isLoadMore: false,
     loadFirst: false,
   }),
   watch: {
-    // url(value) {
-    //   if (value) {
-    //     this.fetchProducts()
-    //   }
-    // },
     refresh(value) {
       if (value) {
-        this.isLoading = true
         this.filters.page = 0
         this.isFirstLoad = true
         this.isNewest = false
@@ -66,6 +63,12 @@ export default {
         this.$emit('update:refresh', false)
       }
     },
+  },
+  mounted() {
+    if (this.url) {
+      this.isFirstLoad = true
+      this.fetchProducts()
+    }
   },
   methods: {
     async fetchProducts() {
@@ -95,7 +98,6 @@ export default {
           this.isNewest = true
         }
       }
-      this.isLoading = false
       this.loadFirst = false
     },
   },

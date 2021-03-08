@@ -26,7 +26,7 @@
           h4.mb-3.text-color-gray Detail Pesanan 
           .order-header
             p.mb-2 {{state.productOrder.merchant.name}}
-            p.m-0.text-size-small.text-color-gray {{state.productOrder.merchant.city.name}}
+            p.m-0.text-size-small.text-color-gray {{state.productOrder.merchant.city ? state.productOrder.merchant.city.name : null}}
           .order-body.mt-3
             .row
               .col-md-5
@@ -66,7 +66,14 @@
         PaymentDialog(
           v-model="state.isPayDialog"
           :totalOrder="state.totalOrder"
-          @change="params.payment_method_id = $event, postCheckout()")
+          @change="params.payment_method_id = $event.id, postCheckout($event)")
+        
+        //- transaction dialog
+        TransactionDetail(
+          v-if="state.isTransactionDialog"
+          v-model="state.isTransactionDialog"
+          :payment-data="state.paymentData"
+          :transaction-data="state.transactionData")
 
     LoadingScreen(v-if="state.isLoadingContent")
 </template>
@@ -81,6 +88,7 @@ export default {
     AddDialog: () => import('@/components/address/AddDialog'),
     OrderInfo: () => import('@/components/checkout/OrderInfo'),
     PaymentDialog: () => import('@/components/checkout/PaymentDialog'),
+    TransactionDetail: () => import('@/components/checkout/TransactionDetail'),
   },
   setup(_, { root }) {
     const { form: response, postData, result, fetchData } = handler()
@@ -92,6 +100,9 @@ export default {
       productOrder: null,
       originAddress: null,
       isLoadingContent: false,
+      isTransactionDialog: false,
+      transactionData: null,
+      paymentData: null,
     })
 
     const form = reactive({
@@ -127,7 +138,8 @@ export default {
       }
     }
 
-    function postCheckout() {
+    function postCheckout(paymentData) {
+      state.paymentData = paymentData
       params.amount = state.totalOrder
       params.detail = [
         {
@@ -168,11 +180,15 @@ export default {
       () => response,
       (value) => {
         if (value.isSuccess) {
-          console.log('value', value)
+          state.transactionData = value.response.data
+          state.isTransactionDialog = true
+          deleteFormCart()
         }
       },
       { deep: true }
     )
+
+    function deleteFormCart() {}
 
     watch(
       () => result,

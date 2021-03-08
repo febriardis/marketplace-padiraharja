@@ -1,8 +1,16 @@
-const state = {}
+const state = {
+  cart_count: null,
+}
 
-const getters = {}
+const getters = {
+  cartCount: (state) => state.cart_count,
+}
 
-const mutations = {}
+const mutations = {
+  SET_CART_COUNT(state, value) {
+    state.cart_count = value
+  },
+}
 
 const actions = {}
 

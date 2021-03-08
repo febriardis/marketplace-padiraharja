@@ -20,7 +20,9 @@
                                     img(:src="product.merchant.logo" width="45" height="45")
                                 .detail-seller
                                     h3.mt-0.mb-1 {{product.merchant.name}}
-                                    p.text-color-gray.text-size-small.m-0.text-capitalize {{product.merchant.city.name + ', ' + product.merchant.province.name | lowercase}}
+                                    p.text-color-gray.text-size-small.m-0.text-capitalize 
+                                      | {{product.merchant.city ? `${product.merchant.city.name}, ` : null | lowercase}}
+                                      | {{product.merchant.province ? product.merchant.province.name : null | lowercase}}
                         .col.text-right
                             el-button(type="primary" size="small")
                               | Hubungi Penjual
@@ -64,10 +66,13 @@ export default {
   methods: {
     async submit(type) {
       if (type === 'cart') {
-        await this.$api.postData(`/${type}`, {
+        const response = await this.$api.postData(`/${type}`, {
           product_id: this.product.id,
           quantity: this.quantity,
         })
+        if (response.status === 200) {
+          this.fetchUserCart()
+        }
       } else {
         this.$router.push({
           name: 'checkout',
@@ -78,6 +83,16 @@ export default {
         })
       }
     },
+
+    async fetchUserCart() {
+      const response = await this.$api.fetchData('/cart')
+      if (response.status === 200) {
+        const data = response.data.data
+        const count = data.length > 0 ? data.length : null
+        this.$store.commit('user/SET_CART_COUNT', count)
+      }
+    },
+
     async fetchProductDetail() {
       const response = await this.$api.fetchData(`/product/${this.productId}`)
       if (response.status === 200) {

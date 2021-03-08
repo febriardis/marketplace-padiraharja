@@ -1,6 +1,6 @@
 <template lang="pug">
     el-dialog(
-        title="Tambah Alamat"
+        title="Pembayaran"
         :visible.sync="isAddDialog"
         width="450px")
         el-form(
@@ -63,7 +63,7 @@ export default {
       refForm.value.validate((valid) => {
         if (valid) {
           state.isLoading = true
-          emit('change', form.bank_id.id)
+          emit('change', form.bank_id)
           emit('input', false)
           state.isLoading = false
         }

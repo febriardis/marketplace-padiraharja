@@ -17,7 +17,7 @@
                 .col
                     .d-flex.justify-content-end            
                         el-button(icon="el-icon-delete" @click="deleteCart(item)" size="small") 
-                        el-button(type="warning" size="small") Beli 
+                        el-button(type="warning" @click="checkout(item)" size="small") Beli 
         //- bottom navigation
         BottomNavigation
 </template>
@@ -38,6 +38,16 @@ export default {
   },
 
   methods: {
+    checkout(item) {
+      this.$router.push({
+        name: 'checkout',
+        query: {
+          product_id: item.product.id,
+          quantity: item.quantity,
+        },
+      })
+    },
+
     async deleteCart(item) {
       const response = await this.$api.deleteData(`/cart/${item.id}`, {
         product_id: item.product.id,
@@ -47,10 +57,13 @@ export default {
         this.fetchUserCart()
       }
     },
+
     async fetchUserCart() {
       const response = await this.$api.fetchData('/cart')
       if (response.status === 200) {
         this.carts = response.data.data
+        const count = this.carts.length > 0 ? this.carts.length : null
+        this.$store.commit('user/SET_CART_COUNT', count)
       }
     },
   },

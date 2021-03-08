@@ -21,10 +21,10 @@
           
           //- if loggedin
           .d-flex.align-items-center(v-if="isAuth")
-            el-badge.mr-4.hide-on-mobile(:value="12" class="item") 
+            el-badge.mr-4.hide-on-mobile(:value="cartCount" class="item") 
               a.text-size-large(href="javascript:void(0)" @click="$router.push({name: 'cart'})")
                 i.fas.fa-shopping-cart
-            el-badge(:value="12" class="item") 
+            el-badge(:value="null" class="item") 
               a.text-size-large(href="javascript:void(0)")
                 i.fas.fa-comment-dots
             .border-left.pl-4.ml-4.hide-on-mobile
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
+import { computed, onMounted, watch } from '@nuxtjs/composition-api'
 import { handler } from '@/controllers/handler'
 
 export default {
@@ -53,10 +53,6 @@ export default {
   },
   setup(props, { root }) {
     const { result, fetchData } = handler()
-    const state = reactive({
-      isLoginDialog: false,
-      search: '',
-    })
 
     watch(
       () => result,
@@ -72,37 +68,26 @@ export default {
       fetchData('/user')
     }
 
-    function handleRouter(routerName) {
-      if (routerName === 'logout') {
-        root
-          .$confirm('Are you sure want to logout?', 'Warning', {
-            confirmButtonText: 'OK',
-            cancelButtonText: 'Cancel',
-            type: 'warning',
-          })
-          .then(() => {
-            localStorage.removeItem('token')
-            localStorage.removeItem('vuex')
-            window.location.reload()
-            root.$message({
-              type: 'success',
-              message: 'Logout completed',
-            })
-          })
-      } else {
-        root.$router.push({ name: routerName })
+    const cartCount = computed((vm) => vm.$store.getters['user/cartCount'])
+
+    const fetchUserCart = async () => {
+      const response = await root.$api.fetchData('/cart')
+      if (response.status === 200) {
+        const data = response.data.data
+        const count = data.length > 0 ? data.length : null
+        root.$store.commit('user/SET_CART_COUNT', count)
       }
     }
 
     onMounted(() => {
       if (props.isAuth) {
         fetchProfile()
+        fetchUserCart()
       }
     })
 
     return {
-      state,
-      handleRouter,
+      cartCount,
     }
   },
 }
