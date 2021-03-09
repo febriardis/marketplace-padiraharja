@@ -7,7 +7,7 @@
             .col
               .d-flex.justify-content-end
                 p.mt-0.mb-2.text-color-gray.mr-3.pr-3.border-right
-                  | Tanggal Pesan: {{ payload.createdAt | formatDate('DD MMM YYYY HH:mm') }}
+                  | Tanggal Pesan: {{ payload.created_at | formatDate('DD MMM YYYY HH:mm') }}
                 p.mt-0.mb-2.text-capitalize.text-warning.font-weight-bold
                   | {{payload.status.replace(/_/g, " ") | lowercase}}
 

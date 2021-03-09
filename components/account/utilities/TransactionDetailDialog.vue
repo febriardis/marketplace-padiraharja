@@ -15,8 +15,8 @@
                   p.mt-0.mb-2.font-weight-bold.text-capitalize.text-warning {{payload.status.replace(/_/g, " ") | lowercase}}
               .col
                 .store
-                  p.mt-0.mb-1.text-color-gray.text-size-mini Tanggal Pembelian
-                  p.mt-0.mb-2.font-weight-bold {{ payload.createdAt | formatDate('DD MMM YYYY HH:mm') }}
+                  p.mt-0.mb-1.text-color-gray.text-size-mini Tanggal Pesan
+                  p.mt-0.mb-2.font-weight-bold {{ payload.created_at | formatDate('DD MMM YYYY HH:mm') }}
             
           .order-datas.border-top.pt-3.mt-2
             p.mt-0.mb-1.text-color-gray.text-size-mini Daftar Produk
