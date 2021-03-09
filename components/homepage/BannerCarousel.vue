@@ -1,29 +1,35 @@
 <template>
-  <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="(item, key) in banners" :key="key">
-      <img
-        :src="$filters.imageView(item.image)"
-        alt="banner"
-        class="banner-img"
-      />
-    </el-carousel-item>
-  </el-carousel>
+  <div class="banner-carousel">
+    <Skeleton v-if="isLoading" height="480px" />
+    <el-carousel v-else indicator-position="outside">
+      <el-carousel-item v-for="(item, key) in banners" :key="key">
+        <img
+          :src="$filters.imageView(item.image)"
+          alt="banner"
+          class="banner-img"
+        />
+      </el-carousel-item>
+    </el-carousel>
+  </div>
 </template>
 
 <script>
 export default {
   data: () => ({
     banners: [],
+    isLoading: false,
   }),
   mounted() {
     this.fetchBanners()
   },
   methods: {
     async fetchBanners() {
+      this.isLoading = true
       const response = await this.$api.fetchData('/public/banner')
       if (response.status === 200) {
         this.banners = response.data.data
       }
+      this.isLoading = false
     },
   },
 }

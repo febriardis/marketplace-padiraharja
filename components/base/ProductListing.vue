@@ -1,8 +1,6 @@
 <template lang="pug">
   .product-listing
-    .d-flex.justify-content-center.mt-3(v-if="loadFirst")
-      el-button(type="primary", :loading="true")
-        | Loading...
+    ProductListingSkeleton.mt-3(v-if="loadFirst")
     .scroller-product
       MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", :should-handle="!isBusy")
         .row
@@ -22,6 +20,8 @@
 export default {
   components: {
     ProductInfo: () => import('@/components/base/ProductInfo'),
+    ProductListingSkeleton: () =>
+      import('@/components/skeleton/ProductListing'),
   },
   props: {
     refresh: {

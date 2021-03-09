@@ -3,7 +3,8 @@
         el-dropdown(trigger="click", @command="handleCommandUser")
             a.el-dropdown-link(href="javascript:void(0)")
                 .d-flex.align-items-center
-                    .show-in-phone.border.p-2(style="border-radius:100%")
+                    .show-in-phone
+                      .user-circle
                         i.el-icon-user
                     span.hide-on-mobile.text-capitalize.ml-2 {{userData ? userData.name : ''}} 
                     i.el-icon-arrow-down.el-icon--right
@@ -23,7 +24,7 @@
 
                     .main-user-menu.pt-3
                         .main-user-menu-left
-                            el-dropdown-item(command="AccountSaldo")
+                            el-dropdown-item(command="withdraw")
                                 | Saldo
                                 span.font-weight-bold.i-text-normal-size
                                     | Rp. {{userData ? userData.balance : 0 | price}}
@@ -46,7 +47,11 @@ export default {
     handleCommandUser(command) {
       if (command === 'logout') {
         this.logout()
-      } else if (command === 'banks' || command === 'transactions') {
+      } else if (
+        command === 'banks' ||
+        command === 'transactions' ||
+        command === 'withdraw'
+      ) {
         this.$router.push({ name: 'account', query: { select: command } })
       } else if (command !== 'AccountSaldo') {
         this.$router.push({ name: command })
@@ -66,7 +71,6 @@ export default {
 <style lang="scss">
 .main-user-menu {
   display: flex;
-
   &-left {
     width: 50%;
     display: inline-block;
@@ -80,11 +84,16 @@ export default {
       padding: 0 10px;
     }
   }
-
   &-right {
     width: 50%;
     display: inline-block;
     padding-left: 0.5em;
   }
+}
+.user-circle {
+  font-size: 14px;
+  padding: 8px 9px;
+  border-radius: 100%;
+  border: 1px solid #acacac;
 }
 </style>

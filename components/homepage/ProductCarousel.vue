@@ -1,6 +1,8 @@
 <template lang="pug">
     .products-carousel
+        ProductListingSkeleton(:count="6" v-if="isLoading")
         carousel(
+            v-else
             navigationNextLabel="<i class='el-icon-arrow-right'></i>",
             navigationPrevLabel="<i class='el-icon-arrow-left'></i>",
             :navigationEnabled='true',
@@ -15,6 +17,8 @@
 export default {
   components: {
     ProductInfo: () => import('@/components/base/ProductInfo'),
+    ProductListingSkeleton: () =>
+      import('@/components/skeleton/ProductListing'),
   },
   props: {
     categoryId: {
@@ -28,12 +32,14 @@ export default {
       limit: 10,
     },
     products: [],
+    isLoading: false,
   }),
   mounted() {
     this.fetchProducts()
   },
   methods: {
     async fetchProducts() {
+      this.isLoading = true
       let url
       if (this.categoryId) {
         url = `/product/category/${this.categoryId}`
@@ -46,6 +52,7 @@ export default {
       } else {
         this.products = []
       }
+      this.isLoading = false
     },
   },
 }

@@ -31,9 +31,9 @@
 
     .show-on-mobile
       el-tabs.mt-2(v-model="tab_name")
-          el-tab-pane(label="Profil Saya" name="1")
+          el-tab-pane(label="Akun Pembeli" name="1")
               //- ProfileViewer
-          el-tab-pane(label="Daftar Alamat" name="2")
+          el-tab-pane(label="Akun Toko" name="2")
               //- AddressViewer
               
       //- bottom navigation
@@ -74,6 +74,9 @@ export default {
     } else if (this.query === 'transactions') {
       this.sidebar_type = '4'
       this.default_active_side = '4'
+    } else if (this.query === 'withdraw') {
+      this.sidebar_type = '2'
+      this.default_active_side = '2'
     }
   },
 
