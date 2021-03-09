@@ -31,9 +31,20 @@
                 .col.text-center
                     p.text-color-gray.m-0 {{ item.created_at | formatDate('DD-MM-YYYY') }}
         
+
+        
+        .card-custom.p-2.mt-1(v-if="state.pagination")
+          el-pagination(
+            background
+            layout="prev, pager, next"
+            :current-page.sync="filters.page"
+            :page-size="filters.limit"
+            :total="state.pagination.total_record")
+
+        //- form create withdraw
         FormWithdraw(
-            v-model="state.isDialog"
-            @change="fetchWithdraw")
+          v-model="state.isDialog"
+          @change="fetchWithdraw")
             
         //- LoadingScreen(v-if="deleted && deleted.isLoading")
 </template>
@@ -47,8 +58,9 @@ export default {
     const { result, fetchData } = handler()
 
     const state = reactive({
-      withdraw: [],
       isDialog: false,
+      withdraw: [],
+      pagination: null,
     })
 
     const filters = reactive({
@@ -60,7 +72,12 @@ export default {
       () => result,
       (value) => {
         if (value.isSuccess) {
-          state.withdraw = value.response.data
+          const data = value.response
+          state.withdraw = data.data
+          state.pagination = {
+            total_record: parseInt(data.paging.page),
+            total_page: parseInt(data.paging.total_page),
+          }
         }
       },
       { deep: true }

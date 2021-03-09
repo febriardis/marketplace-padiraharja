@@ -79,7 +79,7 @@ a {
 a.red-link {
   color: $color-unique;
   text-decoration: none;
-  font-weight: bold;
+  // font-weight: bold;
   &:hover {
     color: #6e6e6e;
   }

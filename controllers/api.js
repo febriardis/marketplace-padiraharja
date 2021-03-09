@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { Message } from 'element-ui'
 import { HTTP } from '../plugins/axios'
 
-const _baseUrl = 'http://api.emsacode.xyz' // process.env.VUE_APP_API_REQUEST_URL_MIGRATE;
+const _baseUrl = 'https://api.padiraharja.com' // process.env.VUE_APP_API_REQUEST_URL_MIGRATE;
 const _send = async (
   method = 'GET',
   url,

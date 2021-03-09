@@ -2,7 +2,6 @@
 
 import Vue from 'vue'
 
-import SelectTab from '@/components/base/SelectTab'
 import LoadingScreen from '@/components/base/LoadingScreen'
 import LoadingSkeleton from '@/components/base/LoadingSkeleton'
 
@@ -25,8 +24,7 @@ import SearchDistrictROField from '@/components/input/SearchDistrictROField'
 
 // custom-ui
 Vue.component('LoadingScreen', LoadingScreen)
-Vue.component('f-select-tab', SelectTab)
-Vue.component('f-skeleton', LoadingSkeleton)
+Vue.component('Skeleton', LoadingSkeleton)
 
 // input
 Vue.component('SearchField', SearchField)

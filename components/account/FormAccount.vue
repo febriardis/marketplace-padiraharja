@@ -1,7 +1,7 @@
 <template lang="pug">
     .form-account
-        h4.mt-2.mb-2 Profil Saya
-        p.mt-0.text-size-small.text-color-gray Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun
+        h3.mt-2.mb-2 Profil Saya
+        p.mt-0.mb-2.text-size-small.text-color-gray Kelola informasi profil Anda untuk mengontrol, melindungi dan mengamankan akun.
         el-form(
             :model="form"
             :rules="rules"

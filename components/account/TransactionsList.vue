@@ -4,50 +4,10 @@
         .card-custom.pl-3.pr-3
             el-tabs(v-model="state.activeName" @tab-click="handleClick")
                 el-tab-pane(v-for='item in state.orderStatus' :key='item.id' :label='item.name' :name='item.id')
-                    .hide-on-mobile
-                      .order-head
-                          .row
-                              .col-md-3
-                                  | Produk
-                              .col.text-center
-                                  | Pemesan
-                              .col.text-center
-                                  | Dikirim ke
-                              .col.text-center
-                                  | Status
-                              .col.text-center
-                                  | Total (Nominal)
-                              .col.text-center
-                                  | Aksi
-
-                      p.text-center(v-if="state.datas.length === 0")
+                    .order-list
+                      p.text-center.mb-4(v-if="state.datas.length === 0")
                         | No Data
                       order-items(
-                        v-else
-                        v-for="order in state.datas"
-                        :key="order.id"
-                        :payload="order"
-                        :fetchOrders="fetchOrders")
-
-                    .show-on-mobile
-                      //- .order-head
-                          .row
-                              .col-md-3
-                                  | Produk phone
-                              .col.text-center
-                                  | Pemesan
-                              .col.text-center
-                                  | Dikirim ke
-                              .col.text-center
-                                  | Status
-                              .col.text-center
-                                  | Total (Nominal)
-                              .col.text-center
-                                  | Aksi
-
-                      p.text-center(v-if="state.datas.length === 0")
-                        | No Data
-                      order-items-phone(
                         v-else
                         v-for="order in state.datas"
                         :key="order.id"
@@ -70,8 +30,7 @@ import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
 
 export default {
   components: {
-    OrderItems: () => import('@/components/store/utilities/List'),
-    OrderItemsPhone: () => import('@/components/store/utilities/ListOnPhone'),
+    OrderItems: () => import('./utilities/TransactionsListBody'),
   },
   setup() {
     const { result, fetchData } = handler()
@@ -86,10 +45,11 @@ export default {
       activeName: 'WAITING_PAYMENT',
       orderStatus: [
         { id: 'WAITING_PAYMENT', name: 'Menunggu Pembayaran' },
-        { id: 'REQUESTED', name: 'Konfirmasi Pesanan' },
-        { id: 'DELIVERING', name: 'Pesanan Diantar' },
-        { id: 'FINISHED', name: 'Pesanan Selesai' },
-        { id: 'REJECTED', name: 'Pesanan Dibatalkan' },
+        { id: 'REQUESTED', name: 'Menunggu Konfirmasi' },
+        { id: 'PROCESSED', name: 'Sedang Diproses' },
+        { id: 'DELIVERING', name: 'Sedang Diantar' },
+        { id: 'FINISHED', name: 'Selesai' },
+        { id: 'REJECTED', name: 'Dibatalkan' },
       ],
       datas: [],
       pagination: null,

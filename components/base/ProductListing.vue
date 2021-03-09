@@ -4,7 +4,7 @@
       el-button(type="primary", :loading="true")
         | Loading...
     .scroller-product
-      MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", v-loading="loadFirst", :should-handle="!isBusy", :handle-on-mount="false")
+      MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", :should-handle="!isBusy")
         .row
           .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, index) in products" :key="index")
             ProductInfo.w-100(:product="item")
