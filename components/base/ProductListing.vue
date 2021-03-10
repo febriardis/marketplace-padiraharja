@@ -1,12 +1,12 @@
 <template lang="pug">
   .product-listing
-    ProductListingSkeleton.mt-3(v-if="loadFirst")
-    .scroller-product
+    ProductListingSkeleton.mt-3(v-if="loadFirst || products.length === 0")
+    .scroller-product(v-else)
       MugenScroll(v-if="products.length !== 0", :handler="fetchProducts", :should-handle="!isBusy")
         .row
           .col-lg-2.col-md-3.col-sm-6.col-6(v-for="(item, index) in products" :key="index")
             ProductInfo.w-100(:product="item")
-        
+      
         .d-flex.justify-content-center.mt-3(v-if="isLoadMoreLoading")
           el-button(type="primary", :loading="true")
             | Loading...
