@@ -18,6 +18,9 @@ Vue.filter('percentDigit', function (integer) {
 })
 
 Vue.filter('formatDate', (value, customFormat) => {
+  // Convert to Regular Date Format
+  // const d = new Date(value * 1000)
+  // return moment(d).format(customFormat || 'DD-MM-YYYY')
   return moment(value).format(customFormat || 'DD/MM/YYYY')
 })
 
@@ -43,7 +46,7 @@ Vue.filter('imageView', function (value) {
   if (protocol === 'https:') {
     return value
   } else {
-    return `https://adminapi.emsacode.xyz/${value}`
+    return `https://api.padiraharja.com/${value}`
   }
 })
 

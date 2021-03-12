@@ -25,7 +25,7 @@
               a.text-size-large(href="javascript:void(0)" @click="$router.push({name: 'cart'})")
                 i.fas.fa-shopping-cart
             el-badge(:value="null" class="item") 
-              a.text-size-large(href="javascript:void(0)")
+              a.text-size-large(href="javascript:void(0)" @click="$router.push({name: 'chat'})")
                 i.fas.fa-comment-dots
             .border-left.pl-4.ml-4.hide-on-mobile
               UserDropdown

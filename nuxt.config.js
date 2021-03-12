@@ -51,6 +51,7 @@ export default {
   plugins: [
     { src: '~plugins/axios', ssr: false },
     { src: '~plugins/filters', ssr: false },
+    { src: '~plugins/firebase', ssr: false },
     { src: '~plugins/custom-ui', ssr: false },
     { src: '~plugins/element-ui', ssr: false },
     { src: '~plugins/localStorage', ssr: false },

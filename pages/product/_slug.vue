@@ -24,7 +24,7 @@
                                       | {{product.merchant.city ? `${product.merchant.city.name}, ` : null | lowercase}}
                                       | {{product.merchant.province ? product.merchant.province.name : null | lowercase}}
                         .col.text-right
-                            el-button(type="primary" size="small")
+                            el-button(type="primary" size="small" @click="showChatContent = true")
                               | Hubungi Penjual
 
                 .web-action.border-top.mt-3
@@ -45,17 +45,31 @@
                               | Beli
 
         .action-card
+
+        transition(name="fade")
+          .chat-widget.shadow-lg(v-if="showChatContent")
+            ChatContent(
+              close 
+              initialTo="MERCHANT"
+              :userId="userData.id"
+              :merchantId="product.merchant.id"
+              @change="showChatContent = $event")
         
     
 </template>
 
 <script>
 export default {
+  components: {
+    ChatContent: () => import('@/components/chat/ChatContent'),
+  },
   data: () => ({
-    product: null,
     quantity: 1,
+    product: null,
+    showChatContent: false,
   }),
   computed: {
+    userData: (vm) => vm.$store.getters['auth/getSessionData'],
     productId() {
       return this.$route.params.slug
     },
@@ -114,5 +128,22 @@ export default {
   .img-detail {
     height: 300px;
   }
+}
+
+.chat-widget {
+  z-index: 3;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform: translateY(10px);
+  opacity: 0;
 }
 </style>

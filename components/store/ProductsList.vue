@@ -28,7 +28,7 @@
         .order-content.text-size-small(v-for="(item, key) in state.products" :key="key" v-else)
             .row.align-items-center
                 .col-3.border-right
-                    .d-flex
+                    .d-flex.align-items-center
                         .product-image.mr-3
                             img(:src="item.photo" width="40" height="40")
                         .product-detail

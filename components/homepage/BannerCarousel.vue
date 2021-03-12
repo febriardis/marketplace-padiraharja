@@ -39,7 +39,8 @@ export default {
 .banner-img {
   width: 100%;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: cover;
+  object-position: bottom;
 }
 @media (min-width: 769px) {
   .el-carousel__container {

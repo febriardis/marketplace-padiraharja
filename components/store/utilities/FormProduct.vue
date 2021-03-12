@@ -20,7 +20,7 @@
                 el-input(type="text" v-model="form.weight" placeholder="Masukkan berat produk")
             el-form-item(prop="description" label="Deskripsi")
                 el-input(type="textarea" v-model="form.description" placeholder="Masukkan deskripsi produk")
-            el-form-item(label="Logo")
+            el-form-item(label="Gambar Produk")
                 UploadImageField(v-model="form.photo" width="120px" height="120px" :previewImage="productData ? productData.photo : null")
             
             .mt-3.text-right

@@ -17,6 +17,22 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 // Main CSS
 @import "~element-ui/packages/theme-chalk/src/index";
 
+.direction-right {
+  direction: rtl;
+}
+
+.direction-left {
+  direction: ltr;
+}
+
+.min-height-screen {
+  min-height: calc(100vh - 80px);
+}
+
+.max-height-screen {
+  max-height: calc(100vh - 80px);
+}
+
 .me-container {
   margin: 0 auto;
 }
@@ -90,3 +106,27 @@ a.red-link {
     padding-top: 0px !important;
   }
 }
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  border-radius: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(214, 214, 214);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(195, 195, 195);
+}
+
