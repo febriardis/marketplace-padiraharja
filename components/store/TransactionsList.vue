@@ -2,15 +2,13 @@
     .transaction-list
         h3 Daftar Transaksi
         .card-custom.pl-3.pr-3
-            el-tabs(v-model="state.activeName" @tab-click="handleClick")
-                el-tab-pane(v-for='item in state.orderStatus' :key='item.id' :label='item.name' :name='item.id')
+            el-tabs(v-model="state.activeName")
+                el-tab-pane(v-for="item in state.orderStatus" :key="item.id" :label="item.name" :name="item.id")
                     .hide-on-mobile
                       .order-head
                           .row
                               .col-md-3
                                   | Produk
-                              .col.text-center
-                                  | Pemesan
                               .col.text-center
                                   | Dikirim ke
                               .col.text-center
@@ -82,13 +80,22 @@ export default {
       orderStatus: [
         { id: 'WAITING_PAYMENT', name: 'Menunggu Pembayaran' },
         { id: 'REQUESTED', name: 'Konfirmasi Pesanan' },
-        { id: 'DELIVERING', name: 'Pesanan Diantar' },
-        { id: 'FINISHED', name: 'Pesanan Selesai' },
-        { id: 'REJECTED', name: 'Pesanan Dibatalkan' },
+        { id: 'PROCESSED', name: 'Sedang Diproses' },
+        { id: 'DELIVERING', name: 'Sedang Diantar' },
+        { id: 'FINISHED', name: 'Selesai' },
+        { id: 'REJECTED', name: 'Ditolak' },
       ],
       datas: [],
       pagination: null,
     })
+
+    watch(
+      () => state.activeName,
+      (value) => {
+        filters.status = value
+      },
+      { deep: true }
+    )
 
     watch(
       () => filters,
@@ -107,6 +114,9 @@ export default {
             page: parseInt(data.paging.page),
             total_page: parseInt(data.paging.total_page),
           }
+        } else {
+          state.datas = []
+          state.pagination = null
         }
       },
       { deep: true }
@@ -114,12 +124,6 @@ export default {
 
     function fetchOrders() {
       fetchData('/transaction/merchant', filters)
-    }
-
-    function handleClick(tab) {
-      state.datas = []
-      state.pagination = null
-      filters.status = tab.name
     }
 
     onMounted(() => {
@@ -131,7 +135,6 @@ export default {
       state,
       result,
       fetchOrders,
-      handleClick,
     }
   },
 

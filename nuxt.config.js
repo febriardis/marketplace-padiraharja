@@ -17,21 +17,22 @@ export default {
       {
         hid: 'og:image',
         property: 'og:image',
-        content: '/favicon.ico',
+        content: '/icons/favicon.ico',
       },
       {
         hid: 'og:title',
         name: 'og:title',
-        content: 'Padiraharja',
+        content: 'Padiraharja Market',
       },
       {
         hid: 'og:description',
         name: 'og:description',
-        content: 'Padiraharja',
+        content:
+          'Aplikasi e-Commerce Lengkap yang Memudahkan Semua yang kamu butuhkan untuk belanja, Pulsa,membayar tagihan, isi top up dan mengelola usaha ada disini ..',
       },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/icons/favicon.ico' },
       {
         rel: 'stylesheet',
         href: 'https://pro.fontawesome.com/releases/v5.10.0/css/all.css',

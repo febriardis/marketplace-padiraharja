@@ -25,24 +25,38 @@
         .row.border-top.pt-2
           .col
             .d-flex
-              .border-right.pr-3
+              .pr-2
                 a.text-primary(href="javascript:void(0)" @click="state.isDialog = true")
                   | Lihat Detail
-              .ml-3
-                a.red-link(href="javascript:void(0)")
+              .ml-3.border-left.pl-3(v-if="payload.status === 'WAITING_PAYMENT'")
+                a.red-link(href="javascript:void(0)" @click="processOrder('Apakah anda yakin akan membatalkan transaksi ini?', null, 'cancel' )")
                   | Batalkan Pesanan
+              .ml-3.border-left.pl-3(v-if="payload.status === 'WAITING_PAYMENT'")
+                a.text-color-orange(href="javascript:void(0)" @click="state.isConfirmDialog = true")
+                  | Konfirmasi Pembayaran
+              .ml-3.border-left.pl-3(v-if="payload.status === 'DELIVERING'")
+                a.red-link(href="javascript:void(0)" @click="processOrder('Apakah anda yakin akan menyelesaikan transaksi ini?', null, 'finish' )")
+                  | Konfirmasi Pesanan Sampai
           .col-4
             .d-flex.align-items-center.justify-content-end
               p.m-0.text-size-small.text-color-navy.mr-3 Total Pesanan 
               h3.m-0.text-price Rp. {{payload.amount + payload.postal_fee + payload.unique_code | price}}
         
-        //- form create withdraw
+        //- transaction detail dialog
         TransactionDetailDialog(v-model="state.isDialog" :payload="payload")
+        
+        el-dialog(title="Konfirmasi Pembayaran" :visible.sync="state.isConfirmDialog" width="380px" custom-class="dialog-body-pad-0")
+          el-form(:model="form" :rules="rules" ref="refForm")
+            el-form-item(prop="image" label="Bukti Transfer")
+              UploadImageField(v-model="form.image" height="300px")
+        
+            .mt-3.text-right
+              el-button(size="small" type="primary" @click="confirmPayment()") Submit
 </template>
 
 <script>
 import { handler } from '@/controllers/handler'
-import { reactive, watch } from '@nuxtjs/composition-api'
+import { reactive, ref, watch } from '@nuxtjs/composition-api'
 
 export default {
   components: {
@@ -63,6 +77,21 @@ export default {
 
     const state = reactive({
       isDialog: false,
+      isConfirmDialog: false,
+    })
+
+    const form = reactive({
+      image: '',
+    })
+
+    const rules = reactive({
+      image: [
+        {
+          required: true,
+          message: 'Please input confirmation image',
+          trigger: 'blur',
+        },
+      ],
     })
 
     watch(
@@ -75,26 +104,47 @@ export default {
       { deep: true }
     )
 
-    function handleOrder() {
+    function processOrder(msg, params, status) {
       const _this = ctx.root
       _this
-        .$confirm('Apakah anda yakin akan melakukan aksi ini?', 'Warning', {
+        .$confirm(msg, 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning',
         })
         .then(() => {
-          postData(`/orders/${props.payload.id}/finish`)
+          postData(`/transaction/status/${status}/${props.payload.id}`, params)
         })
         .catch(() => {
           // console.log('cancel')
         })
     }
 
+    const refForm = ref(null)
+
+    function confirmPayment() {
+      refForm.value.validate((valid) => {
+        if (valid) {
+          const fd = new FormData()
+          fd.append('photo', form.image)
+          processOrder(
+            'Apakah anda yakin akan mengirim bukti transfer ini?',
+            fd,
+            'confirmation'
+          )
+          state.isConfirmDialog = false
+        }
+      })
+    }
+
     return {
+      form,
+      rules,
+      refForm,
       state,
       response,
-      handleOrder,
+      processOrder,
+      confirmPayment,
     }
   },
 }

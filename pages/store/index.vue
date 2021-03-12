@@ -7,25 +7,26 @@
           Form
       .row.mt-4(v-else)
         .col-md-3
-          .store-detail.border-top.border-bottom.border-right.pb-2.pt-2
-            .d-flex.align-items-center
-                .product-image.mr-3
-                    img(:src="store_data.logo" width="40" height="40")
-                .product-detail
-                    p.font-weight-bold.m-0 {{store_data.name}}
-          el-menu.el-menu-vertical-demo(default-active="1")
-            el-menu-item(index="1" @click="onSidebarClicked")
-              i.fas.fa-store(style="margin-right:10px")
-              span(slot='title') Toko
-            el-menu-item(index="2" @click="onSidebarClicked")
-              i.fas.fa-list(style="margin-right:16px")
-              span(slot='title') Produk
-            el-menu-item(index="3" @click="onSidebarClicked")
-              i.fas.fa-map-pin(style="margin-right:22px")
-              span(slot='title') Alamat Pengiriman
-            el-menu-item(index="4" @click="onSidebarClicked")
-              i.fas.fa-history(style="margin-right:15px")
-              span(slot='title') Riwayat Transaksi
+          .side-content.position-sticky(style="top:120px")
+            .store-detail.border-top.border-bottom.border-right.pb-2.pt-2
+              .d-flex.align-items-center
+                  .product-image.mr-3
+                      img(:src="store_data.logo" width="40" height="40")
+                  .product-detail
+                      p.font-weight-bold.m-0 {{store_data.name}}
+            el-menu.el-menu-vertical-demo(default-active="1")
+              el-menu-item(index="1" @click="onSidebarClicked")
+                i.fas.fa-store(style="margin-right:10px")
+                span(slot='title') Toko
+              el-menu-item(index="2" @click="onSidebarClicked")
+                i.fas.fa-list(style="margin-right:16px")
+                span(slot='title') Produk
+              el-menu-item(index="3" @click="onSidebarClicked")
+                i.fas.fa-map-pin(style="margin-right:22px")
+                span(slot='title') Alamat Pengiriman
+              el-menu-item(index="4" @click="onSidebarClicked")
+                i.fas.fa-history(style="margin-right:15px")
+                span(slot='title') Riwayat Transaksi
 
         .col-md-9
           FormStore(:storeData="store_data" @change="fetchStore" v-if="sidebar_type === '1'")

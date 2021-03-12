@@ -1,74 +1,85 @@
 <template lang="pug">
     .order-content.text-size-small
-        .row.border-bottom
+        .row.border-bottom.align-items-center.pb-2
             .col
-                p.mt-0.mb-2.font-weight-bold
-                    | No. Order: {{ payload.order_id }}
+                p.mt-0.mb-1.font-weight-bold {{ payload.user.name }}
+                p.m-0.text-size-mini.text-capitalize.text-color-gray {{ payload.user.city.name | lowercase }}
             .col.text-right
-                p.mt-0.mb-2.font-weight-light
+                p.m-0.font-weight-light
                     | Tanggal Pesan: {{ payload.createdAt | formatDate }}
-        .row.mt-2
+        .row
             .col-md-3.border-right
-              .d-flex.justify-content-between
-                div
-                  p
-                      span.text-color-gray Fast Pants:
-                      |   {{ payload.style ? payload.style.name : "" }}
-                  p
-                      span.text-color-gray Fabric:
-                      |  {{ payload.fabric ? payload.fabric.name : "" }}
-                  p
-                      span.text-color-gray Stitch:
-                      |  {{ payload.stitch ? payload.stitch.name : "" }}
-                  p
-                      span.text-color-gray Size:
-                      |  {{ payload.size ? payload.size.size : "" }}
-                  p
-                      span.text-color-gray Cutting:
-                      |  {{ payload.cutting ? payload.cutting.name : "" }}
-                div
-                  p.font-weight-bold x{{ payload.qty }}
-            .col.text-center.border-right
-                p {{ payload.user ? payload.user.name : "" }}
+              .d-flex.border-bottom.pt-2(v-for="(product, key) in payload.detail")
+                .product-image.mr-3
+                    img(:src="product.product.photo" width="50" height="50")
+                .product-detail.w-100
+                  p.m-0.mb-1.font-weight-bold {{product.product.name}}
+                  p.m-0.mb-1.text-size-mini.text-color-gray {{product.quantity}} Pcs
+                  p.m-0.mb-1.text-price Rp. {{product.product.price | price}}
+
             .col.border-right
-                p.text-color-gray.font-weight-bold.mb-1
-                    | {{ payload.address ? payload.address.title : "" }}
-                p.text-color-gray
-                    | {{ payload.address ? payload.address.address : "" }}
+                p.text-color-gray(v-if="payload.destination_details")
+                  | {{  payload.destination_details.address }},
+                  br
+                  | {{  payload.destination_details.subdistrict_name }},
+                  | {{  payload.destination_details.type + ' ' + payload.destination_details.city }},
+                  | {{  payload.destination_details.province }}.
                 .text-size-mini.border-top.pt-2
                     p.m-0.mb-1 Expedisi:
-                    p.m-0.font-weight-bold.text-uppercase {{ payload.logistic_info }}
-                    p.mt-1.m-0.text-color-gray (Rp. {{ payload.logistic_charge | price }})
-                    p.mt-2.text-color-gray(v-if="payload.logistic_awb")
-                      | AWB: {{ payload.logistic_awb }}
+                    p.m-0.font-weight-bold.text-uppercase {{ payload.courier + '-' + payload.courier_service }}
+                    p.mt-1.m-0.text-color-gray (Rp. {{ payload.postal_fee | price }})
+                    p.mt-2.text-color-gray(v-if="payload.airway_bill")
+                      | AWB: {{ payload.airway_bill }}
             .col.text-center.border-right
-                p.text-color-gray {{ payload.order_status }}
+                p.text-capitalize.text-warning.font-weight-bold
+                  | {{payload.status.replace(/_/g, " ") | lowercase}}
             .col.border-right
-                p.text-center.font-weight-bold Rp. {{ payload.total_price | price }}
-                .text-size-mini.border-top.pt-2
-                  p.m-0.mb-1 Payment:
-                  p.m-0.font-weight-bold.text-uppercase {{ payload.payment_bank }} VIRTUAL ACCOUNT
-                  p.mt-1.m-0.text-color-gray VA Number: {{ payload.payment_va }}
-                  p.mt-1.m-0.text-color-gray.text-capitalize Status: 
-                    el-tag(size="mini" :type="payload.payment_status === 'pending' ? 'warning' : payload.payment_status === 'failure' ? 'danger' : 'success'")
-                      | {{ payload.payment_status}}
-                  p.mt-2.text-color-gray.text-capitalize(v-if="payload.payment_status !== 'success'")
-                    | Exp. {{ parseInt(payload.payment_exp) | formatDate('HH:mm - DD/MM/YYYY') }}
-            .col.text-center
-                el-button.w-100(
-                    v-if="payload.order_status === 'Sedang Dikirim'"
-                    size='small' 
-                    type='warning' 
+                p.text-center.font-weight-bold Rp. {{payload.amount + payload.postal_fee + payload.unique_code | price}}
+                .text-size-mini.border-top.pt-2(v-if="payload.payment_method")
+                  p.m-0.mb-1 Pembayaran Ke:
+                  p.m-0.font-weight-bold Transfer Bank {{ payload.payment_method.bank_name }}
+                  p.mt-1.m-0.text-color-gray {{ payload.payment_method.account_name }}
+                  p.mt-1.m-0.text-color-gray {{ payload.payment_method.account_number }}
+            .col.text-center.pt-3
+                .requested-status(v-if="payload.status === 'REQUESTED'")
+                  el-button.w-100(
+                    type="primary"
+                    size="small"
+                    @click="handleOrder('process')"
+                    ) Proses Pesanan
+                  el-button.w-100.m-0.mt-2(
+                    type="primary"
+                    size="small"
                     plain
-                    @click="handleOrder()"
-                    ) Pesanan Diterima
-                //- el-button.w-100.ml-0.mt-2(size='small' icon='el-icon-truck' v-if="status === '3' || status === '4'") Pantau Pengiriman
+                    @click="handleOrder('reject')"
+                    ) Tolak Pesanan
+
+                el-button.w-100(
+                  type="success"
+                  size="small"
+                  v-else-if="payload.status === 'PROCESSED'"
+                  @click="handleOrder('deliver')"
+                  ) Kirim Pesanan
+
+                el-button.w-100(
+                  size="small"
+                  type="warning"
+                  v-else-if="payload.status === 'DELIVERING'"
+                  @click="handleOrder('finish')"
+                  ) Pengiriman Selesai
+                
+                el-dialog(title="Masukan AWB" :visible.sync="state.isAwbDialog" width="380px" custom-class="dialog-body-pad-0")
+                  el-form(:model="form" :rules="rules" ref="refForm")
+                    el-form-item(prop="airway_bill")
+                      el-input(v-model="form.airway_bill" placeholder="Masukan awb")
+                    .mt-3.text-right
+                      el-button(size="small" type="primary" @click="submitAwb()") Proses
 
 </template>
 
 <script>
 import { handler } from '@/controllers/handler'
-import { watch } from '@nuxtjs/composition-api'
+import { reactive, ref, watch } from '@nuxtjs/composition-api'
 
 export default {
   props: {
@@ -84,6 +95,25 @@ export default {
   setup(props, ctx) {
     const { form: response, postData } = handler()
 
+    const form = reactive({
+      airway_bill: '',
+    })
+
+    const rules = reactive({
+      airway_bill: [
+        {
+          required: true,
+          message: 'Please input awb number',
+          trigger: 'blur',
+        },
+      ],
+    })
+
+    const state = reactive({
+      isAwbDialog: false,
+      paramsTemporary: null,
+    })
+
     watch(
       () => response,
       (value) => {
@@ -94,25 +124,66 @@ export default {
       { deep: true }
     )
 
-    function handleOrder() {
+    function handleOrder(status) {
+      let msg, params
+      switch (status) {
+        case 'process':
+          msg = 'Apakah anda yakin akan memproses pesanan ini?'
+          processOrder(msg, params, status)
+          break
+        case 'deliver':
+          msg = 'Apakah anda yakin akan mengirim pesanan ini?'
+          params = {
+            logistic_awb: null,
+          }
+          state.paramsTemporary = { msg, params, status }
+          state.isAwbDialog = true
+          break
+        default:
+          msg = 'Apakah anda yakin akan melakukan aksi ini?'
+          processOrder(msg, params, status)
+          break
+      }
+    }
+
+    function processOrder(msg, params, status) {
       const _this = ctx.root
       _this
-        .$confirm('Apakah anda yakin akan melakukan aksi ini?', 'Warning', {
+        .$confirm(msg, 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning',
         })
         .then(() => {
-          postData(`/orders/${props.payload.id}/finish`)
+          postData(`/transaction/status/${status}/${props.payload.id}`, params)
         })
         .catch(() => {
           // console.log('cancel')
         })
     }
 
+    const refForm = ref(null)
+    function submitAwb() {
+      refForm.value.validate((valid) => {
+        if (valid) {
+          processOrder(
+            state.paramsTemporary.msg,
+            form,
+            state.paramsTemporary.status
+          )
+          state.isAwbDialog = false
+        }
+      })
+    }
+
     return {
       response,
       handleOrder,
+      submitAwb,
+      refForm,
+      rules,
+      form,
+      state,
     }
   },
 }
