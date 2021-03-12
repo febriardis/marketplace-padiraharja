@@ -15,13 +15,8 @@
                         :fetchOrders="fetchOrders")
                     
                     .card-custom.p-2.mt-1(v-if="state.pagination")
-                      el-pagination(
-                        background
-                        layout="prev, pager, next"
-                        :current-page.sync="filters.page"
-                        :page-size="filters.limit"
-                        :total="state.pagination.total_record")
-        
+                      CPagination(v-model="filters.page" :total-page="state.pagination.total_page")
+                      
 </template>
 
 <script>
@@ -69,7 +64,7 @@ export default {
           const data = value.response
           state.datas = data.data
           state.pagination = {
-            total_record: parseInt(data.paging.page),
+            page: parseInt(data.paging.page),
             total_page: parseInt(data.paging.total_page),
           }
         }

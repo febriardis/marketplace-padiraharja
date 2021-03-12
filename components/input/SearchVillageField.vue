@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { computed, reactive, watch } from '@nuxtjs/composition-api'
+import { computed, onMounted, reactive, watch } from '@nuxtjs/composition-api'
 import { handler } from '@/controllers/handler'
 export default {
   props: {
@@ -55,6 +55,12 @@ export default {
     function getVilages(districtId) {
       fetchData(`/public/village/${districtId}`)
     }
+
+    onMounted(() => {
+      if (props.districtId) {
+        getVilages(props.districtId)
+      }
+    })
 
     return {
       state,

@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import { reactive, watch } from '@nuxtjs/composition-api'
+import { onMounted, reactive, watch } from '@nuxtjs/composition-api'
 import { handler } from '@/controllers/handler'
 export default {
   props: {
@@ -59,6 +59,12 @@ export default {
     function getCities(provinceId) {
       fetchData(`/raja-ongkir/city/${provinceId}`)
     }
+
+    onMounted(() => {
+      if (props.provinceId) {
+        getCities(props.provinceId)
+      }
+    })
 
     return {
       state,

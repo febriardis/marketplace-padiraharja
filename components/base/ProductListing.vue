@@ -13,7 +13,7 @@
 
         .d-flex.justify-content-center.mt-3(v-if="isNewest")
           el-button(type="primary", plain, size="small", :disabled="true")
-            | Newest Product
+            | No More
 </template>
 
 <script>

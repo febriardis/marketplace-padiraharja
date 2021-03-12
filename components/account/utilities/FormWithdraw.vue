@@ -11,7 +11,7 @@
             el-form-item(prop="amount" label="Nominal")
                 el-input-number.custom-number(v-model="form.amount" :min="50000" :controls="false" placeholder="Masukkan nominal (Min. Rp. 50.000)")
             el-form-item(prop="user_bank_id" label="Bank Tujuan")
-                SelectBankWField(v-model="form.user_bank_id")
+                SelectBankField(v-model="form.user_bank_id" is-withdraw)
             .mt-3.text-right
                 el-button(type="primary" @click="submitForm()" v-loading.fullscreen.lock="response.isLoading") Submit
 

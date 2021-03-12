@@ -1,6 +1,10 @@
 <template lang="pug">
     el-select.w-100(:loading="result.isLoading", v-bind="$attrs" placeholder="Pilih Bank", filterable, value-key="id", v-model="innerValue")
-        el-option(v-for="(item, key) in state.banks" :key="key" :label="item.bank_name" :value="item")
+        el-option(
+          v-for="(item, key) in state.banks" 
+          :key="key" 
+          :label="isWithdraw ? `${item.bank_name} (a.n. ${item.account_name})` : item.bank_name" 
+          :value="isWithdraw ? item.id : item")
 </template>
 
 <script>
@@ -9,8 +13,12 @@ import { handler } from '@/controllers/handler'
 export default {
   props: {
     value: {
-      type: Object,
+      type: [Object, Number],
       default: null,
+    },
+    isWithdraw: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props, { emit }) {
@@ -39,7 +47,8 @@ export default {
     })
 
     function fetchBanks() {
-      fetchData('/public/payment_method')
+      const url = props.isWithdraw ? '/user_bank' : '/public/payment_method'
+      fetchData(url)
     }
 
     onMounted(() => {

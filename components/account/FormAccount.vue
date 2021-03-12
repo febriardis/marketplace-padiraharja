@@ -144,9 +144,15 @@ export default {
         form.email = user.email
         form.address = user.address
         form.province_id = user.province ? user.province.id : null
-        form.city_id = user.city ? user.city.id : null
-        form.district_id = user.district ? user.district.id : null
-        form.village_id = user.village ? user.village.id : null
+        setTimeout(() => {
+          form.city_id = user.city ? user.city.id : null
+        }, 500)
+        setTimeout(() => {
+          form.district_id = user.district ? user.district.id : null
+        }, 500)
+        setTimeout(() => {
+          form.village_id = user.village ? user.village.id : null
+        }, 500)
       }
     }
 

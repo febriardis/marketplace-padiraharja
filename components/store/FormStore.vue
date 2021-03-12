@@ -26,8 +26,14 @@
                 el-form-item(prop="village_id" label="Kelurahan")
                   SearchVillageField(v-model="form.village_id" :district-id="form.district_id")
         
-        el-form-item(label="Logo")
-            UploadImageField(v-model="form.logo" width="120px" height="120px" :previewImage="storeData ? storeData.logo : null")
+        .row
+          .col-md-3
+            el-form-item(label="Foto toko")
+                UploadImageField(v-model="form.logo" width="120px" height="120px" :previewImage="storeData ? storeData.logo : null")
+        
+          .col-md-3
+            el-form-item(label="Upload SIUP")
+                UploadImageField(v-model="form.siup_image" width="120px" height="120px" :previewImage="storeData ? storeData.siup_image : null")
         
         .mt-3.text-right
             el-button(type="primary" @click="submitForm()" v-loading.fullscreen.lock="response.isLoading") Simpan
@@ -57,6 +63,7 @@ export default {
       district_id: null,
       village_id: null,
       logo: null,
+      siup_image: null,
     })
 
     const rules = reactive({
@@ -102,6 +109,13 @@ export default {
           trigger: 'change',
         },
       ],
+      siup_image: [
+        {
+          required: true,
+          message: 'Please select your SIUP file',
+          trigger: 'change',
+        },
+      ],
     })
 
     const refForm = ref(null)
@@ -138,9 +152,15 @@ export default {
         form.name = value.name
         form.address = value.address
         form.province_id = value.province ? value.province.id : null
-        form.city_id = value.city ? value.city.id : null
-        form.district_id = value.district ? value.district.id : null
-        form.village_id = value.village ? value.village.id : null
+        setTimeout(() => {
+          form.city_id = value.city ? value.city.id : null
+        }, 500)
+        setTimeout(() => {
+          form.district_id = value.district ? value.district.id : null
+        }, 500)
+        setTimeout(() => {
+          form.village_id = value.village ? value.village.id : null
+        }, 500)
       }
     }
 

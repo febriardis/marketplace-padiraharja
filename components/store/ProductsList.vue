@@ -3,7 +3,7 @@
         .row.align-items-center
             .col
               h3.mb-0 Produk Toko
-              p.mt-2.mb-0.text-color-gray Atur produk - produk yang tersedia di toko anda.
+              p.mt-2.mb-0.text-color-gray Atur produk yang tersedia di toko anda.
             .col.text-right
                 el-button(size="small" @click="state.productData = null, state.isDialog = true" plain icon="el-icon-plus")
                     | Tambah Produk
@@ -46,13 +46,7 @@
                         el-button(type="primary" @click="state.productData = item, state.isDialog = true" size="mini" plain icon="el-icon-edit")
                         el-button(type="danger" @click="deleteProduct(item.id)" size="mini" icon="el-icon-delete")
         .card-custom.p-2.mt-1(v-if="state.pagination")
-            el-pagination(
-                background
-                layout="prev, pager, next"
-                :current-page.sync="filters.page"
-                :page-size="filters.limit"
-                :total="state.pagination.total_record")
-        
+          CPagination(v-model="filters.page" :total-page="state.pagination.total_page")
         
         FormProduct(
             v-model="state.isDialog"
@@ -89,7 +83,7 @@ export default {
           const data = value.response
           state.products = data.data
           state.pagination = {
-            total_record: parseInt(data.paging.page),
+            page: parseInt(data.paging.page),
             total_page: parseInt(data.paging.total_page),
           }
         }

@@ -28,7 +28,7 @@
                   .product-detail.w-100
                     p.font-weight-bold.m-0 {{product.product.name}}
                     p.m-0.text-size-mini.text-color-gray {{product.quantity}} Pcs
-              .col-3.text-right
+              .col-4.text-right
                 p.m-0.text-price Rp. {{product.product.price | price}}
 
           .payment-detail.border-top.pt-3.mt-2
