@@ -50,5 +50,15 @@ Vue.filter('imageView', function (value) {
   }
 })
 
+Vue.filter('imageViewBanner', function (value) {
+  const pathArray = value.split('/')
+  const protocol = pathArray[0]
+  if (protocol === 'https:') {
+    return value
+  } else {
+    return `https://adminapi.padiraharja.com/${value}`
+  }
+})
+
 export default Vue.options.filters
 Vue.prototype.$filters = Vue.options.filters

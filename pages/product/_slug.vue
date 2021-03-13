@@ -52,6 +52,7 @@
               close 
               initialTo="MERCHANT"
               :userId="userData.id"
+              :name="product.merchant.name"
               :merchantId="product.merchant.id"
               @change="showChatContent = $event")
         

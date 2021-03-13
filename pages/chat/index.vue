@@ -8,10 +8,10 @@
                     .p-3.pt-1
                       el-tabs(v-model="tabName")
                           //- Official Store for user (sebagai pembeli)
-                          el-tab-pane(label="Pembeli" name="user")
+                          el-tab-pane(label="Toko Resmi" name="user")
                               ChatList(:chats="chats" @change="$event => chatSelected = $event")
                           //- Customer for merchant (sebagai penjual)
-                          el-tab-pane(label="Penjual" name="merchant")
+                          el-tab-pane(label="Pelanggan" name="merchant")
                               ChatList(:chats="chats" @change="$event => chatSelected = $event")
                     
 
@@ -46,6 +46,7 @@ export default {
   watch: {
     tabName(value) {
       this.fetchChats(value)
+      this.showMessage = false
       this.initialTo = value === 'user' ? 'MERCHANT' : 'USER'
     },
     chatSelected(value) {

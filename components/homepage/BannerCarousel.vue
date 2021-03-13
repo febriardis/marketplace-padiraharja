@@ -4,7 +4,7 @@
     <el-carousel v-else indicator-position="outside">
       <el-carousel-item v-for="(item, key) in banners" :key="key">
         <img
-          :src="$filters.imageView(item.image)"
+          :src="$filters.imageViewBanner(item.image)"
           alt="banner"
           class="banner-img"
         />

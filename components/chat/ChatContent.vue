@@ -5,14 +5,15 @@
             h4 {{name}}
             .close(v-if="close")
               el-button(@click="$emit('change', false)" size="small")
-                | X
+                i.fas.fa-times
         .wrapperChat(id="boxWrapper")
-            div(v-for="(chat, key) in chats" :key="key" :class="{ 'direction-right': chat.user_id === userId }" )
-                p.text-size-mini.text-center.text-color-gray.direction-left(v-if="isShowDate(chat.created_at, key)")
+            .direction-right(v-for="(chat, key) in chats" :key="key" :class="{ 'direction-left': (initialTo === 'MERCHANT' && chat.recipient === 'USER' && chat.user_id === userData.id) || (initialTo === 'USER' && chat.recipient === 'MERCHANT' && chat.merchant_id === userMerchantId) }" )
+                p.text-size-mini.text-center.text-color-gray(v-if="isShowDate(chat.created_at, key)")
                     | {{ chat.created_at | formatDate("DD MMMM YYYY") }}
                 
-                .chatBGroup(:class="chat.user_id === userId ? 'chatBSelf' : 'chatBPartner'")
-                    .text-size-small.direction-left(v-html="chat.message")
+                .chatBGroup(
+                  :class="(initialTo === 'MERCHANT' && chat.recipient === 'USER' && chat.user_id === userData.id) || (initialTo === 'USER' && chat.recipient === 'MERCHANT' && chat.merchant_id === userMerchantId)  ? 'chatBPartner' : 'chatBSelf'")
+                    .text-size-small(v-html="chat.message")
                     p.text-size-mini.mt-2.mb-0
                         | {{ chat.created_at | formatDate("HH:mm") }}
 
@@ -25,9 +26,14 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import { handler } from '@/controllers/handler'
-import { onMounted, reactive, toRefs, watch } from '@nuxtjs/composition-api'
+import {
+  computed,
+  onMounted,
+  reactive,
+  toRefs,
+  watch,
+} from '@nuxtjs/composition-api'
 
 export default {
   props: {
@@ -53,24 +59,12 @@ export default {
     },
   },
   setup(props, { root }) {
-    const { form: response, postData, result, fetchData } = handler()
+    const { form: response, postData } = handler()
 
     const state = reactive({
+      chats: [],
       chat_value: null,
-      chats: [
-        // {
-        //   type: 2,
-        //   message:
-        //     'Hello, is this product are compitable with my sensitive skin? i really hope you would respond my chat, thanks.',
-        //   created_at: 1614050152,
-        // },
-        // {
-        //   type: 1,
-        //   message:
-        //     'Hi <b>dear</b>, our products are natural based so it would not damage your sensitive skin.',
-        //   created_at: 1614050152,
-        // },
-      ],
+      merchant_data: null,
     })
 
     function scrollToBottom() {
@@ -119,23 +113,18 @@ export default {
       }
     }
 
-    watch(
-      () => result,
-      (value) => {
-        if (value.isSuccess) {
-          state.chats = value.response.data
-        } else {
-          state.chats = []
-        }
-      },
-      { deep: true }
-    )
-
-    function fetchMessage() {
-      fetchData('/chat/message', {
+    const fetchMessage = async () => {
+      const response = await root.$api.fetchData('/chat/message', {
         user_id: props.userId,
         merchant_id: props.merchantId,
       })
+      if (response.status === 200) {
+        state.chats = response.data.data
+        state.chats.reverse()
+        scrollToBottom()
+      } else {
+        state.chats = []
+      }
     }
 
     watch(
@@ -146,11 +135,26 @@ export default {
     )
 
     onMounted(() => {
+      fetchStore()
       fetchMessage()
     })
 
+    const userData = computed((vm) => vm.$store.getters['auth/getSessionData'])
+    const userMerchantId = computed(() =>
+      state.merchant_data ? state.merchant_data.id : null
+    )
+
+    const fetchStore = async () => {
+      const response = await root.$api.fetchData('/user/merchant')
+      if (response.status === 200) {
+        state.merchant_data = response.data.data
+      }
+    }
+
     return {
       ...toRefs(state),
+      userData,
+      userMerchantId,
       postChat,
       isShowDate,
       scrollToBottom,

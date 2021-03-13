@@ -9,7 +9,7 @@
             .chat-image.mr-2(v-if="item.logo")
               img.rounded-circle.mx-auto(:src="$filters.imageView(item.logo)" width="40" height="40")
             .chat-detail
-              p.m-0.text-size-mini {{ item.name }}
+              p.text-size-mini {{ item.name }}
         
 </template>
 
@@ -25,106 +25,7 @@ export default {
   setup() {
     const state = reactive({
       chatActive: null,
-      list: [
-        {
-          id: 1,
-          name: 'Sana',
-          image: 'https://via.placeholder.com/150',
-          date: 1614050152,
-          lastMessage: 'If you know of a child who is having a greater...',
-        },
-        {
-          id: 2,
-          name: 'Mina',
-          image: 'https://via.placeholder.com/150',
-          date: 1614050152,
-          lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 3,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 4,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-          // },
-          // {
-          //   id: 5,
-          //   name: 'Mina',
-          //   image: 'https://via.placeholder.com/150',
-          //   date: 1614050152,
-          //   lastMessage: 'If you know of a child who is having a greater...',
-        },
-      ],
+      list: [],
     })
 
     return {
