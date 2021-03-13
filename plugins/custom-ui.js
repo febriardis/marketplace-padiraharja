@@ -6,6 +6,9 @@ import CPagination from '@/components/base/CPagination'
 import LoadingScreen from '@/components/base/LoadingScreen'
 import LoadingSkeleton from '@/components/base/LoadingSkeleton'
 
+// skeleton
+import ListingSkeleton from '@/components/skeleton/Listing'
+
 // input field
 import SearchField from '@/components/input/SearchField'
 import CategoryField from '@/components/input/CategoryField'
@@ -26,6 +29,9 @@ import SearchDistrictROField from '@/components/input/SearchDistrictROField'
 Vue.component('CPagination', CPagination)
 Vue.component('Skeleton', LoadingSkeleton)
 Vue.component('LoadingScreen', LoadingScreen)
+
+// skeleton
+Vue.component('ListingSkeleton', ListingSkeleton)
 
 // input field
 Vue.component('SearchField', SearchField)

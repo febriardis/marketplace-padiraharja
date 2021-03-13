@@ -167,8 +167,15 @@ export default {
 .wrapperChat {
   padding: 10px;
   overflow-y: scroll;
-  height: calc(100vh - 280px);
+  // height: calc(100vh - 280px);
+  height: calc(100vh - 140px);
   background-color: #fdfdfd;
+}
+
+@media (min-width: 769px) {
+  .wrapperChat {
+    height: calc(100vh - 280px);
+  }
 }
 
 .chatBGroup {

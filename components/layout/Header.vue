@@ -3,13 +3,13 @@
       #header1
         .me-container.d-flex.justify-content-between
           .download
-            a(href="#") Download Padiraharja App
+            a(href="https://padiraharja.com/app/app-release.apk") Download Padiraharja App
           .menu
             ul.right-nav
               li.hide-on-mobile 
                 a(href="javascript:void(0)" @click="$router.push({name: 'news'})") Berita Harian
               li
-                a(href="#") Hubungi Admin
+                a(href="https://web.whatsapp.com/send?phone=6289617694232&text=Salam, Admin Padiraharja ..") Hubungi Admin
               li.hide-on-mobile
                 a(href="#") Kebijakan Privasi
 

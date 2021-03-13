@@ -26,7 +26,7 @@ const _send = async (
       data,
     })
 
-    if (method.toLocaleLowerCase() !== 'get') {
+    if (method.toLocaleLowerCase() !== 'get' && url !== '/chat') {
       if (response.data.status) {
         Message({
           type: 'success',

@@ -24,7 +24,7 @@
                                       | {{product.merchant.city ? `${product.merchant.city.name}, ` : null | lowercase}}
                                       | {{product.merchant.province ? product.merchant.province.name : null | lowercase}}
                         .col.text-right
-                            el-button(type="primary" size="small" @click="showChatContent = true")
+                            el-button(type="primary" icon="el-icon-chat-dot-round" size="small" @click="showChatContent = true")
                               | Hubungi Penjual
 
                 .web-action.border-top.mt-3
@@ -137,14 +137,5 @@ export default {
   bottom: 0;
   right: 0;
   width: 400px;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.3s ease;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform: translateY(10px);
-  opacity: 0;
 }
 </style>

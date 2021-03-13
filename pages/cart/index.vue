@@ -1,8 +1,8 @@
 <template lang="pug">
     .cart.mt-4
         h2 Keranjang
-        .mt-5(v-if="carts.length === 0")
-            p.m-0.text-center Keranjang Kosong
+        ListingSkeleton(v-if="isLoading")
+        p.m-0.text-center(v-else-if="carts.length === 0") Keranjang Kosong
         el-card.mb-2(class="box-card" v-for="(item, key) in carts" :key="key" v-else)
             h3.mt-0.mb-2 Produk
             .row
@@ -31,6 +31,7 @@ export default {
 
   data: () => ({
     carts: [],
+    isLoading: false,
   }),
 
   mounted() {
@@ -59,11 +60,13 @@ export default {
     },
 
     async fetchUserCart() {
+      this.isLoading = true
       const response = await this.$api.fetchData('/cart')
       if (response.status === 200) {
         this.carts = response.data.data
         const count = this.carts.length > 0 ? this.carts.length : null
         this.$store.commit('user/SET_CART_COUNT', count)
+        this.isLoading = false
       }
     },
   },

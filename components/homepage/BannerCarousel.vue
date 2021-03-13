@@ -1,16 +1,15 @@
-<template>
-  <div class="banner-carousel">
-    <Skeleton v-if="isLoading" height="480px" />
-    <el-carousel v-else indicator-position="outside">
-      <el-carousel-item v-for="(item, key) in banners" :key="key">
-        <img
+<template lang="pug">
+  .banner-carousel
+    .loading-state(v-if="isLoading")
+      Skeleton.hide-on-mobile(height="480px")
+      Skeleton.show-on-mobile(height="260px")
+    el-carousel(v-else indicator-position="outside")
+      el-carousel-item(v-for="(item, key) in banners" :key="key")
+        img(
           :src="$filters.imageViewBanner(item.image)"
           alt="banner"
           class="banner-img"
-        />
-      </el-carousel-item>
-    </el-carousel>
-  </div>
+        )
 </template>
 
 <script>
