@@ -4,15 +4,15 @@
             .col-md-3
                 .border.rounded-lg.shadow-sm
                     .border-bottom.pr-3.pl-3
-                      h3 Pesan
+                      h3 Pesan {{showMessage}}
                     .p-3.pt-1
                       el-tabs(v-model="tabName")
                           //- Official Store for user (sebagai pembeli)
                           el-tab-pane(label="Toko Resmi" name="user")
-                              ChatList(:chats="chats" @change="$event => chatSelected = $event")
+                              ChatList(:chats="chats" @change="selectChat($event)")
                           //- Customer for merchant (sebagai penjual)
                           el-tab-pane(label="Pelanggan" name="merchant")
-                              ChatList(:chats="chats" @change="$event => chatSelected = $event")
+                              ChatList(:chats="chats" @change="selectChat($event)")
                     
 
             .col-md-9.hide-on-mobile
@@ -58,11 +58,12 @@ export default {
       this.showMessage = false
       this.initialTo = value === 'user' ? 'MERCHANT' : 'USER'
     },
-    chatSelected(value) {
-      if (value) {
-        this.showMessage = true
-      }
-    },
+    // chatSelected(value) {
+    //   console.log('chatSelected', value)
+    //   if (value) {
+    //     this.showMessage = true
+    //   }
+    // },
   },
 
   mounted() {
@@ -70,6 +71,10 @@ export default {
   },
 
   methods: {
+    selectChat(event) {
+      this.chatSelected = event
+      this.showMessage = true
+    },
     async fetchChats(type) {
       const response = await this.$api.fetchData(`/chat/${type}`)
       if (response.status === 200) {

@@ -33,6 +33,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/icons/favicon.ico' },
+      { rel: 'manifest', href: '/manifest.json' },
       {
         rel: 'stylesheet',
         href: 'https://pro.fontawesome.com/releases/v5.10.0/css/all.css',
@@ -50,8 +51,8 @@ export default {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~plugins/axios', ssr: false },
+    { src: '~plugins/fire', ssr: false },
     { src: '~plugins/filters', ssr: false },
-    { src: '~plugins/firebase', ssr: false },
     { src: '~plugins/custom-ui', ssr: false },
     { src: '~plugins/element-ui', ssr: false },
     { src: '~plugins/localStorage', ssr: false },

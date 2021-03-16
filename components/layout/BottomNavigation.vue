@@ -30,7 +30,7 @@ export default {
           icon: 'fa-shopping-cart',
         },
         {
-          router: '/account',
+          router: '/profile',
           isActive: false,
           icon: 'fa-user-circle',
         },

@@ -1,14 +1,14 @@
-const state = {
+export const state = () => ({
   token: localStorage.getItem('token') || null,
   session: null,
-}
+})
 
-const getters = {
+export const getters = {
   loggedIn: (state) => state.token != null,
   getSessionData: (state) => state.session,
 }
 
-const mutations = {
+export const mutations = {
   SET_TOKEN(state, token) {
     state.token = token
   },
@@ -21,18 +21,10 @@ const mutations = {
   },
 }
 
-const actions = {
+export const actions = {
   logout({ commit }) {
     localStorage.removeItem('token')
     commit('DESTROY_TOKEN')
     // window.location.reload()
   },
-}
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  mutations,
-  actions,
 }

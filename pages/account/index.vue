@@ -29,16 +29,6 @@
           WithdrawList(v-else-if="sidebar_type === '2'")
           BanksList(v-else-if="sidebar_type === '3'")
           TransactionsList(v-else-if="sidebar_type === '4'")
-
-    .show-on-mobile
-      el-tabs.mt-2(v-model="tab_name")
-          el-tab-pane(label="Akun Pembeli" name="1")
-              //- ProfileViewer
-          el-tab-pane(label="Akun Toko" name="2")
-              //- AddressViewer
-              
-      //- bottom navigation
-      BottomNavigation
                 
 </template>
 
@@ -50,7 +40,6 @@ export default {
     WithdrawList: () => import('@/components/account/WithdrawList'),
     BanksList: () => import('@/components/account/BanksList'),
     TransactionsList: () => import('@/components/account/TransactionsList'),
-    BottomNavigation: () => import('@/components/layout/BottomNavigation'),
   },
 
   data: () => ({

@@ -8,12 +8,37 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+import 'firebase/messaging'
+
 export default {
   computed: {
     isLoggedIn() {
       const token = !!localStorage.getItem('token')
       return token
     },
+  },
+
+  created() {
+    try {
+      firebase
+        .messaging()
+        .requestPermission()
+        .then(() => {
+          console.log('Notification permission granted.')
+          return firebase
+            .messaging()
+            .getToken()
+            .then((token) => {
+              console.log('token', token)
+            })
+            .catch((err) => {
+              console.log('unable to get token', err)
+            })
+        })
+    } catch (error) {
+      console.log('error', error)
+    }
   },
 }
 </script>

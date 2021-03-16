@@ -22,10 +22,10 @@ export default {
       default: () => [],
     },
   },
+
   setup() {
     const state = reactive({
       chatActive: null,
-      list: [],
     })
 
     return {
