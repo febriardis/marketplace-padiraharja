@@ -39,7 +39,7 @@ export default {
     FormAccount: () => import('@/components/account/FormAccount'),
     WithdrawList: () => import('@/components/account/WithdrawList'),
     BanksList: () => import('@/components/account/BanksList'),
-    TransactionsList: () => import('@/components/account/TransactionsList'),
+    TransactionsList: () => import('@/components/account/TransactionsListUser'),
   },
 
   data: () => ({

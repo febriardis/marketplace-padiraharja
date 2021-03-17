@@ -3,14 +3,14 @@
         .listing-title
           h2.m-0 Produk Pasar Tradisional
         section.products-list.mt-3
-          ProductListing(:url="categoryId ? `/product/category/${categoryId}` : '/product/product/all'" )
+          ProductList(:url="categoryId ? `/product/category/${categoryId}` : '/product/product/all'" )
         
 </template>
 
 <script>
 export default {
   components: {
-    ProductListing: () => import('@/components/base/ProductListing'),
+    ProductList: () => import('@/components/base/ProductList'),
   },
   computed: {
     categoryId() {

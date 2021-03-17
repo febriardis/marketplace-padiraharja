@@ -20,7 +20,7 @@
       CategoryCarousel(v-model="currentCategory")
 
     section.products-list.mt-4
-      ProductListing(:url="`/product/category/${this.currentCategory}`" :refresh.sync="refreshContent")
+      ProductList(:url="`/product/category/${this.currentCategory}`" :refresh.sync="refreshContent")
      
     //- bottom navigation
     BottomNavigation
@@ -29,7 +29,7 @@
 <script>
 export default {
   components: {
-    ProductListing: () => import('@/components/base/ProductListing'),
+    ProductList: () => import('@/components/base/ProductList'),
     BannerCarousel: () => import('@/components/homepage/BannerCarousel'),
     ProductCarousel: () => import('@/components/homepage/ProductCarousel'),
     CategoryCarousel: () => import('@/components/homepage/CategoryCarousel'),
